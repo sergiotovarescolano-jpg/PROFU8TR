@@ -32,9 +32,11 @@ jerarquía no cambian.
   pseudo-elemento enmascarado; se enciende con `:active`, `:focus-within` y `:hover`. `--edge` (tripleta RGB)
   cambia el color del borde: cada día lo pone del color de lo que toca (rosa partido, lavanda descanso,
   color del tipo de sesión).
-- Botones: `.btn-neon` (rosa, primario), `.btn-neon-cyan` (ámbar, secundario; nombre histórico), `.btn-neon-danger`; `.btn-pulse`
-  hace latir el halo (solo en la acción principal de cada pantalla: guardar, crear, registrar partido, FAB).
-  `Button.tsx` los usa por variante.
+- Botones: **sombra dura sin brillo (estilo K9, elegido por el usuario entre 14 estilos y 9 combinaciones de color)**.
+  Bloque de color con borde oscuro (`#1a0709`) y sombra sólida desplazada 4 px; al pulsar baja y encaja en la sombra.
+  `.btn-neon` = principal lavanda `#be8cff` con texto `#1d0b33` y sombra ámbar; `.btn-neon-cyan` = secundario vino
+  `#2e1216` con texto lavanda y sombra lavanda; `.btn-neon-danger` = vino con texto rojo y sombra roja. Los nombres
+  son históricos. `.btn-pulse` ya no anima (antes latía un halo). `Button.tsx` los usa por variante.
 - `.orb` + `.orb--{equipo,gimnasio,carrera,movilidad,descanso,partido}`: disco de cristal con anillo de neón del
   color del tipo. Es el `piece` de `SESSION_TYPE_INFO`, que además da `rgb` para halos y bordes.
 - `.emblem` (global): anillo ámbar para categorías y ajustes. `.kicker`: rótulo ámbar (una línea) con guion luminoso.
@@ -59,7 +61,6 @@ jerarquía no cambian.
 - Fondo sin `filter: blur` ni `mix-blend-mode`: los haces son un `conic-gradient` con máscara; la bruma es un
   degradado radial; el público ya no anima su opacidad (su capa lleva filtro y obligaba a repintarlo).
 - Paralaje del fondo desactivado en pantallas táctiles (`pointer: coarse`): cada arrastre al hacer scroll movía todo.
-- `.btn-pulse`: el latido anima la opacidad de un `::after`, no `box-shadow` (que repintaba el botón).
 - Zonas seguras del iPhone: `PageHeader` baja con `safe-area-inset-top`; el contenedor y los botones flotantes
   suman `safe-area-inset-bottom`. Metadatos de app instalada (`apple-mobile-web-app-*`, barra translúcida).
 - Táctil: `touch-action: manipulation`, sin menú de mantener pulsado ni selección accidental en botones; botones de

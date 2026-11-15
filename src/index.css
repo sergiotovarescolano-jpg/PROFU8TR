@@ -373,106 +373,70 @@ button,
 }
 
 /*
- * Botones de neón. Primario: tubo verde con halo que late (la acción a hacer).
- * Secundario: tubo cian. Peligro: rojo-rosa. Al pulsar, el tubo se "rellena" de luz.
+ * Botones con sombra dura (estilo K9, elegido por el usuario): sin brillo ni halo.
+ * Bloque de color con borde oscuro y una sombra sólida desplazada de otro color; al pulsar,
+ * el botón baja y "encaja" en su sombra.
+ *  .btn-neon        principal: lavanda con sombra ámbar (la acción a hacer)
+ *  .btn-neon-cyan   secundario: vino oscuro con texto lavanda y sombra lavanda
+ *  .btn-neon-danger peligro: vino oscuro con texto rojo y sombra roja
+ * Los nombres de clase son históricos (antes eran tubos de neón); se mantienen para no
+ * tocar cada pantalla.
  */
 .btn-neon,
 .btn-neon-cyan,
 .btn-neon-danger {
-  --btn: var(--hot);
-  border: 1.5px solid rgb(var(--btn) / 0.95);
-  background: linear-gradient(180deg, rgb(var(--btn) / 0.2), rgb(var(--btn) / 0.06));
-  color: rgb(var(--btn) / 1);
-  text-shadow: 0 0 8px rgb(var(--btn) / 0.75);
-  box-shadow:
-    0 0 16px -4px rgb(var(--btn) / 0.8),
-    inset 0 0 14px -4px rgb(var(--btn) / 0.75);
+  --btn-bg: #be8cff;
+  --btn-fg: #1d0b33;
+  --btn-shadow: #ff9f22;
+  border: 2px solid #1a0709;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  text-shadow: none;
+  box-shadow: 4px 4px 0 var(--btn-shadow);
   transition:
-    transform 0.14s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease,
-    color 0.2s ease;
-}
-.btn-neon {
-  color: var(--color-pitch-200);
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.15s ease;
 }
 .btn-neon-cyan {
-  --btn: var(--amber);
-  color: var(--color-neon-200);
-  border-color: rgb(var(--btn) / 0.6);
-  background: linear-gradient(180deg, rgb(var(--btn) / 0.12), rgb(var(--btn) / 0.03));
-  box-shadow:
-    0 0 12px -5px rgb(var(--btn) / 0.7),
-    inset 0 0 10px -5px rgb(var(--btn) / 0.6);
+  --btn-bg: #2e1216;
+  --btn-fg: #e3d0ff;
+  --btn-shadow: #be8cff;
 }
 .btn-neon-danger {
-  --btn: 255 75 62;
-  color: #ffc4bc;
-  border-color: rgb(var(--btn) / 0.7);
+  --btn-bg: #2e1216;
+  --btn-fg: #ffa094;
+  --btn-shadow: #ff4b3e;
 }
 
 .btn-neon:active,
 .btn-neon-cyan:active,
 .btn-neon-danger:active {
-  transform: translateY(1px) scale(0.98);
-  background: rgb(var(--btn) / 0.32);
-  color: #fff;
-  box-shadow:
-    0 0 28px -2px rgb(var(--btn) / 0.95),
-    inset 0 0 22px -2px rgb(var(--btn) / 0.9);
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--btn-shadow);
 }
 
 @media (hover: hover) {
   .btn-neon:hover,
   .btn-neon-cyan:hover,
   .btn-neon-danger:hover {
-    box-shadow:
-      0 0 24px -3px rgb(var(--btn) / 0.9),
-      inset 0 0 18px -3px rgb(var(--btn) / 0.8);
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--btn-shadow);
   }
 }
 
 .btn-neon:disabled,
 .btn-neon-cyan:disabled,
 .btn-neon-danger:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
+  transform: none;
   box-shadow: none;
-  text-shadow: none;
+}
+
+/* Antes hacía latir un halo; con los botones sin brillo ya no anima nada. Se deja la clase
+   para no tocar las pantallas que la usan. */
+.btn-pulse {
   animation: none;
-}
-
-/*
- * El primario "late": un halo más grande en un pseudo-elemento que solo cambia de opacidad.
- * Animar la opacidad lo hace la GPU; animar box-shadow repintaría el botón en cada fotograma
- * (en el móvil se nota en batería y en tirones al hacer scroll).
- * En capa de componentes: position relative no pisa a fixed/absolute (el botón flotante).
- */
-@layer components {
-  .btn-pulse {
-    position: relative;
-  }
-  .btn-pulse::after {
-    content: "";
-    position: absolute;
-    inset: -1.5px;
-    border-radius: inherit;
-    box-shadow:
-      0 0 26px -2px rgb(var(--btn) / 0.95),
-      inset 0 0 18px -3px rgb(var(--btn) / 0.85);
-    opacity: 0;
-    pointer-events: none;
-    animation: neon-pulse 2.6s ease-in-out infinite;
-  }
-}
-
-@keyframes neon-pulse {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
 }
 
 @keyframes snap-in {
@@ -491,8 +455,7 @@ button,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .neon-title,
-  .btn-pulse::after {
+  .neon-title {
     animation: none;
   }
 }
