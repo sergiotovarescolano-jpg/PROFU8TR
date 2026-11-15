@@ -1,25 +1,31 @@
 /*
- * Fondo 3D de la app: estadio de noche con focos cálidos. Solo CSS (sin WebGL), todo con
- * transform/opacity para que la GPU lo anime sin repintar. Se queda detrás de todo (z-index -1)
- * y no recibe toques.
+ * Fondo de la app: estadio de noche visto desde la grada. Solo CSS (sin imágenes ni WebGL),
+ * animado con transform/opacity para que la GPU lo mueva sin repintar.
+ *  - Cielo color vino con pocas estrellas.
+ *  - Grada del fondo en silueta, con el público como puntitos cálidos y flashes de móviles.
+ *  - Cubierta con una línea de luz hielo (el contraste frío).
+ *  - Cuatro torres de focos LED de luz fría cuyos haces se cruzan sobre el césped.
+ *  - Césped en perspectiva con líneas de cal y charcos de luz donde caen los haces.
+ * Se queda detrás de todo (z-index -1) y no recibe toques.
  */
 
 .app-bg {
   --px: 0; /* -1…1, lo mueve el puntero para un leve paralaje */
   --py: 0;
+  --ice: 200 240 255;
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
   contain: strict;
-  /* cielo: negro tostado que se calienta hacia el horizonte (≈ 40 % de la altura) */
   background:
-    radial-gradient(ellipse 140% 45% at 50% 40%, rgb(245 140 40 / 0.11), transparent 62%),
-    linear-gradient(180deg, #050302 0%, #0c0705 28%, #160c07 40%, #0d0805 52%, #070403 100%);
+    radial-gradient(circle, rgb(255 255 255 / 0.5) 0 0.7px, transparent 1.2px) 0 0 / 41px 33px,
+    radial-gradient(circle, rgb(179 241 255 / 0.4) 0 0.6px, transparent 1.1px) 19px 13px / 57px 47px,
+    radial-gradient(ellipse 120% 40% at 50% 30%, rgb(255 140 60 / 0.12), transparent 65%),
+    linear-gradient(180deg, #07030a 0%, #160610 20%, #2a0b12 34%, #12050a 56%, #0a0405 100%);
 }
 
-/* Todo el escenario se desplaza un poco con el puntero (sensación de profundidad) */
 .app-bg__stage {
   position: absolute;
   inset: -4%;
@@ -27,155 +33,285 @@
   transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Resplandor del horizonte: respira como un foco que se calienta */
-.app-bg__glow {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  width: 150vmax;
-  height: 38vmax;
-  margin-left: -75vmax;
-  margin-top: -19vmax;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(255 178 80 / 0.2), rgb(245 120 40 / 0.07) 55%, transparent);
-  filter: blur(10px);
-  animation: bg-breathe 16s ease-in-out infinite alternate;
-}
+/* ---------- Césped ---------- */
 
-/* Grada en el horizonte con lucecitas (flashes del público) que titilan */
-.app-bg__stands {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(40% - 7vh);
-  height: 7vh;
-  background:
-    radial-gradient(circle, rgb(255 214 150 / 0.32) 0 0.9px, transparent 1.4px) 0 0 / 13px 9px,
-    linear-gradient(180deg, rgb(30 18 11 / 0) 0%, #120a06 35%, #180e08 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
-  clip-path: polygon(0 60%, 18% 30%, 35% 22%, 50% 18%, 65% 22%, 82% 30%, 100% 60%, 100% 100%, 0 100%);
-  animation: bg-twinkle 7s ease-in-out infinite;
-}
-
-/* Focos: haz de luz cálida desde cada esquina superior */
-.app-bg__beam {
-  position: absolute;
-  top: -8%;
-  width: 70vmax;
-  height: 95vh;
-  background: linear-gradient(180deg, rgb(255 205 130 / 0.14), rgb(255 160 70 / 0.04) 55%, transparent 80%);
-  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
-  filter: blur(14px);
-  transform-origin: 50% 0;
-  mix-blend-mode: screen;
-}
-
-.app-bg__beam--left {
-  left: -30vmax;
-  transform: rotate(-32deg);
-  animation: bg-sway-left 28s ease-in-out infinite alternate;
-}
-
-.app-bg__beam--right {
-  right: -30vmax;
-  transform: rotate(32deg);
-  animation: bg-sway-right 33s ease-in-out infinite alternate;
-}
-
-/* El foco en sí: punto muy brillante con halo, en la esquina (por encima de la viñeta) */
-.app-bg__lamp {
-  position: absolute;
-  top: -6px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #ffe9c4;
-  opacity: 0.7;
-  box-shadow:
-    0 0 12px 5px rgb(255 214 150 / 0.4),
-    0 0 50px 20px rgb(255 160 70 / 0.15);
-  animation: bg-flicker 10s ease-in-out infinite alternate;
-}
-
-.app-bg__lamp--left {
-  left: -6px;
-}
-
-.app-bg__lamp--right {
-  right: -6px;
-  animation-delay: -3s;
-}
-
-/* Césped en 3D: plano inclinado desde el horizonte hacia el espectador */
 .app-bg__perspective {
   position: absolute;
   inset: 0;
-  perspective: 480px;
-  perspective-origin: 50% 40%;
+  perspective: 520px;
+  perspective-origin: 50% 54%;
 }
 
 /*
- * Tamaño justo: con perspectiva de 480 px e inclinación de 76°, lo que pasa de ~460 px de
- * profundidad queda detrás de la "cámara" y nunca se ve. Una capa más grande solo gastaría
- * memoria de GPU en el móvil.
+ * Con perspectiva de 520 px e inclinación de 72°, lo que pasa de ~460 px de profundidad queda
+ * detrás de la "cámara": una capa más grande solo gastaría memoria de GPU en el móvil.
  */
-.app-bg__floor {
+.app-bg__pitch {
   position: absolute;
-  left: -25%;
-  right: -25%;
-  top: 40%;
+  left: -30%;
+  right: -30%;
+  top: 54%;
   height: 460px;
   transform-origin: 50% 0;
-  transform: rotateX(76deg);
+  transform: rotateX(72deg);
   overflow: hidden;
-  /* se funde con el horizonte arriba y con la oscuridad abajo */
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 62%, transparent 92%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 62%, transparent 92%);
+  /* franjas de corte del césped, verde muy oscuro: el césped de verdad, apagado por la noche */
+  background:
+    repeating-linear-gradient(180deg, rgb(255 255 255 / 0.025) 0 46px, transparent 46px 92px),
+    linear-gradient(180deg, #0c1f18 0%, #0a1813 50%, #07100d 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 60%, transparent 92%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 60%, transparent 92%);
 }
 
-/* La rejilla avanza hacia el espectador: se mueve exactamente un módulo y vuelve (bucle sin salto) */
-.app-bg__grid {
-  --tile: 64px;
+/* Líneas de cal: bandas laterales, línea de fondo y medio campo, con un leve brillo */
+.app-bg__lines {
+  position: absolute;
+  inset: 4% 14% -10% 14%;
+  border: 2px solid rgb(240 250 255 / 0.32);
+  border-bottom: 0;
+  background: linear-gradient(180deg, transparent calc(24% - 1px), rgb(240 250 255 / 0.32) calc(24% - 1px), rgb(240 250 255 / 0.32) calc(24% + 1px), transparent calc(24% + 1px));
+  box-shadow: 0 0 10px rgb(var(--ice) / 0.15);
+}
+
+.app-bg__circle {
+  position: absolute;
+  left: 50%;
+  top: calc(4% + 0.24 * 106%);
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 2px solid rgb(240 250 255 / 0.3);
+  box-shadow: 0 0 10px rgb(var(--ice) / 0.15);
+}
+
+.app-bg__circle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: rgb(240 250 255 / 0.5);
+}
+
+/* Donde caen los haces: el césped se ilumina en óvalos que respiran */
+.app-bg__pool {
+  position: absolute;
+  top: 18%;
+  width: 46%;
+  height: 50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--ice) / 0.16), rgb(var(--ice) / 0.05) 60%, transparent);
+  animation: bg-pool 9s ease-in-out infinite alternate;
+}
+
+.app-bg__pool--left {
+  left: 22%;
+}
+
+.app-bg__pool--right {
+  right: 22%;
+  animation-delay: -4.5s;
+}
+
+/* ---------- Grada ---------- */
+
+/* El contenedor lleva el filtro: así la línea de luz de la cubierta sigue la curva recortada */
+.app-bg__stand-wrap {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(var(--tile) * -1);
-  bottom: 0;
+  top: 24%;
+  height: 32%;
+  filter: drop-shadow(0 -1.5px 0 rgb(var(--ice) / 0.55)) drop-shadow(0 -4px 10px rgb(64 220 255 / 0.35));
+}
+
+/*
+ * Silueta de la grada: el borde superior sigue standTop() de AppBackground.tsx
+ * (28 % de la pantalla en los lados, 36 % en el centro), pasado a % de esta capa.
+ */
+.app-bg__stand {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    0 12.5%,
+    10% 21.5%,
+    20% 28.5%,
+    30% 33.5%,
+    40% 36.5%,
+    50% 37.5%,
+    60% 36.5%,
+    70% 33.5%,
+    80% 28.5%,
+    90% 21.5%,
+    100% 12.5%,
+    100% 100%,
+    0 100%
+  );
   background:
-    /* línea central brillante que se pierde en el horizonte */
-    linear-gradient(90deg, transparent calc(50% - 1.5px), rgb(255 205 120 / 0.38) calc(50% - 0.75px), rgb(255 205 120 / 0.38) calc(50% + 0.75px), transparent calc(50% + 1.5px)),
-    /* líneas transversales doradas */
-    linear-gradient(180deg, rgb(245 181 68 / 0.22) 0 1.5px, transparent 1.5px) 0 0 / 100% var(--tile),
-    /* líneas longitudinales */
-    linear-gradient(90deg, rgb(245 181 68 / 0.13) 0 1.5px, transparent 1.5px) 0 0 / var(--tile) 100%,
-    /* franjas de corte de césped en ámbar oscuro */
-    repeating-linear-gradient(90deg, rgb(255 150 60 / 0.04) 0 calc(var(--tile) * 2), transparent calc(var(--tile) * 2) calc(var(--tile) * 4)),
-    linear-gradient(180deg, #140b06, #0a0604);
-  animation: bg-advance 6.5s linear infinite;
+    /* público: puntitos cálidos en filas, más tenues hacia abajo */
+    radial-gradient(circle, rgb(255 200 150 / 0.2) 0 0.8px, transparent 1.3px) 0 0 / 7px 6px,
+    radial-gradient(circle, rgb(255 140 90 / 0.14) 0 0.7px, transparent 1.2px) 3px 3px / 9px 7px,
+    /* filas de la grada */
+    repeating-linear-gradient(180deg, rgb(0 0 0 / 0.25) 0 2px, transparent 2px 9px),
+    /* luz de los focos rebotando en la grada (más clara arriba) */
+    linear-gradient(180deg, #3a1219 0%, #230a0f 45%, #120507 100%);
+}
+
+/* Anillo entre pisos: canto oscuro con una fila de lucecitas cálidas */
+.app-bg__tier {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45%;
+  height: 5px;
+  background:
+    radial-gradient(circle, rgb(255 200 140 / 0.8) 0 0.9px, transparent 1.5px) 0 50% / 14px 5px repeat-x,
+    linear-gradient(180deg, #0c0305, #3a141a 60%, #0c0305);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.6);
+  opacity: 0.8;
+}
+
+/* Vallas LED a pie de campo: franja de colores de la app que avanza sin parar */
+.app-bg__boards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(54% - 1.6vh);
+  height: 1.6vh;
+  min-height: 9px;
+  overflow: hidden;
+  background: #120406;
+  box-shadow:
+    0 0 14px rgb(255 140 60 / 0.35),
+    0 6px 18px rgb(255 159 34 / 0.12);
+}
+
+.app-bg__boards-run {
+  width: calc(100% + 2040px);
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgb(255 159 34 / 0.75) 0 70px,
+    rgb(255 159 34 / 0.2) 70px 74px,
+    rgb(245 43 124 / 0.7) 74px 150px,
+    rgb(245 43 124 / 0.2) 150px 154px,
+    rgb(64 220 255 / 0.6) 154px 200px,
+    rgb(64 220 255 / 0.15) 200px 204px
+  );
+  /* trama de LED */
+  -webkit-mask-image: radial-gradient(circle, #000 0 1px, transparent 1.4px);
+  -webkit-mask-size: 3px 3px;
+  mask-image: radial-gradient(circle, #000 0 1px, transparent 1.4px);
+  mask-size: 3px 3px;
+  animation: bg-boards 18s linear infinite;
   will-change: transform;
 }
 
-/* Ascuas que suben flotando */
-.app-bg__ember {
+/* Flash de un móvil: casi siempre apagado, destella un instante */
+.app-bg__flash {
   position: absolute;
-  bottom: -12px;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
   border-radius: 50%;
-  background: radial-gradient(circle, #fff1d0 0%, #ffc069 35%, #ff8a3d 60%, transparent 72%);
-  box-shadow: 0 0 8px 1px rgb(255 160 70 / 0.3);
+  background: #fffaf0;
+  box-shadow:
+    0 0 6px 2px rgb(255 255 255 / 0.8),
+    0 0 18px 4px rgb(255 220 170 / 0.4);
   opacity: 0;
-  animation: bg-rise var(--dur) linear infinite;
+  animation: bg-flash var(--dur) linear infinite;
   animation-delay: var(--delay);
-  will-change: transform, opacity;
 }
+
+/* Bruma baja sobre el césped, iluminada por los focos */
+.app-bg__haze {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 47%;
+  height: 20%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgb(var(--ice) / 0.09), transparent 75%);
+  animation: bg-haze 22s ease-in-out infinite alternate;
+}
+
+/* ---------- Torres de focos ---------- */
+
+.app-bg__tower {
+  --s: 1;
+  position: absolute;
+  width: 0;
+}
+
+/* Mástil */
+.app-bg__tower::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.5px * var(--s));
+  top: calc(18px * var(--s));
+  bottom: 0;
+  width: calc(3px * var(--s));
+  background: linear-gradient(180deg, #4a2a30, #1a0a0d);
+}
+
+/* Panel de focos LED: rejilla de lámparas blancas frías con halo */
+.app-bg__lamps {
+  position: absolute;
+  left: calc(-24px * var(--s));
+  top: 0;
+  width: calc(48px * var(--s));
+  height: calc(22px * var(--s));
+  border-radius: 3px;
+  background:
+    radial-gradient(circle, #ffffff 0 1.6px, rgb(var(--ice) / 0.9) 2.2px, transparent 3px) 0 0 / calc(8px * var(--s)) calc(7.3px * var(--s)),
+    #2a1418;
+  box-shadow:
+    0 0 10px 3px rgb(var(--ice) / 0.65),
+    0 0 40px 14px rgb(var(--ice) / 0.25),
+    0 0 90px 40px rgb(64 220 255 / 0.08);
+  animation: bg-lamp 7s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -1.7s);
+}
+
+/* Haz de luz que baja cruzando hacia el centro del campo */
+.app-bg__beam {
+  position: absolute;
+  left: calc(-30vmax * var(--s));
+  top: calc(10px * var(--s));
+  width: calc(60vmax * var(--s));
+  height: 70vh;
+  transform-origin: 50% 0;
+  transform: rotate(var(--beam));
+  /*
+   * Cono de luz con bordes suaves dibujado con un degradado cónico desde el foco y apagado
+   * hacia abajo con una máscara. Antes era un recorte + filter: blur + mix-blend-mode, que en
+   * el móvil obligaba a recalcular el desenfoque mientras el haz se mueve.
+   */
+  background: conic-gradient(
+    from 168deg at 50% 0%,
+    transparent 0deg,
+    rgb(var(--ice) / calc(0.14 * var(--s))) 12deg,
+    transparent 24deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0.35) 55%, transparent 85%);
+  mask-image: linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0.35) 55%, transparent 85%);
+  animation: bg-sway 26s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -6s);
+}
+
+/* ---------- Velo y grano ---------- */
 
 /* Viñeta y velo: el fondo nunca compite con el contenido */
 .app-bg__veil {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 85% 70% at 50% 45%, transparent 30%, rgb(4 3 2 / 0.8) 100%),
-    linear-gradient(180deg, rgb(4 3 2 / 0.5) 0%, rgb(4 3 2 / 0.22) 30%, rgb(4 3 2 / 0.35) 70%, rgb(4 3 2 / 0.7) 100%);
+    radial-gradient(ellipse 85% 70% at 50% 45%, transparent 35%, rgb(10 2 3 / 0.8) 100%),
+    linear-gradient(180deg, rgb(10 2 3 / 0.35) 0%, rgb(10 2 3 / 0.12) 30%, rgb(10 2 3 / 0.35) 70%, rgb(10 2 3 / 0.7) 100%);
 }
 
 /* Grano muy fino para que los degradados no hagan bandas */
@@ -188,81 +324,72 @@
     repeating-linear-gradient(25deg, rgb(255 255 255 / 0.01) 0 1px, transparent 1px 4px);
 }
 
-@keyframes bg-advance {
+/* ---------- Animaciones ---------- */
+
+@keyframes bg-boards {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(0, var(--tile), 0);
+    /* 2 040 px = múltiplo del dibujo (204 px): vuelve al inicio sin salto */
+    transform: translate3d(-2040px, 0, 0);
   }
 }
 
-@keyframes bg-breathe {
+@keyframes bg-flash {
+  0%,
+  90%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  92% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  95% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+
+@keyframes bg-lamp {
   from {
     opacity: 0.85;
-    transform: scale(0.98);
   }
   to {
     opacity: 1;
-    transform: scale(1.02);
   }
 }
 
-@keyframes bg-twinkle {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.65;
-  }
-}
-
-@keyframes bg-sway-left {
+@keyframes bg-sway {
   from {
-    transform: rotate(-34deg);
-    opacity: 0.8;
-  }
-  to {
-    transform: rotate(-28deg);
-    opacity: 1;
-  }
-}
-
-@keyframes bg-sway-right {
-  from {
-    transform: rotate(34deg);
-    opacity: 1;
-  }
-  to {
-    transform: rotate(28deg);
-    opacity: 0.8;
-  }
-}
-
-@keyframes bg-flicker {
-  from {
-    opacity: 0.6;
-  }
-  to {
+    transform: rotate(calc(var(--beam) - 4deg));
     opacity: 0.75;
   }
+  to {
+    transform: rotate(calc(var(--beam) + 4deg));
+    opacity: 1;
+  }
 }
 
-@keyframes bg-rise {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0;
+@keyframes bg-pool {
+  from {
+    opacity: 0.7;
+    transform: translateX(-4%) scale(0.96);
   }
-  10% {
-    opacity: var(--alpha);
+  to {
+    opacity: 1;
+    transform: translateX(4%) scale(1.04);
   }
-  80% {
-    opacity: var(--alpha);
+}
+
+@keyframes bg-haze {
+  from {
+    transform: translateX(-4%);
   }
-  100% {
-    transform: translate3d(var(--drift), -105vh, 0) scale(0.4);
-    opacity: 0;
+  to {
+    transform: translateX(4%);
   }
 }
 
@@ -270,14 +397,14 @@
   .app-bg__stage {
     transition: none;
   }
-  .app-bg__glow,
-  .app-bg__stands,
+  .app-bg__lamps,
   .app-bg__beam,
-  .app-bg__lamp,
-  .app-bg__grid {
+  .app-bg__pool,
+  .app-bg__haze,
+  .app-bg__boards-run {
     animation: none;
   }
-  .app-bg__ember {
+  .app-bg__flash {
     display: none;
   }
 }

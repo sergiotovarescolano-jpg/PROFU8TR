@@ -1,49 +1,77 @@
 @import "tailwindcss";
 
+/*
+ * NEÓN DE ATARDECER — estadio de noche cálida iluminado con tubos de neón.
+ * Reparto 60-30-10:
+ *  60 % noche cálida: vino casi negro (fondo y cristal de los recuadros)
+ *  30 % ámbar neón (`neon-*`): contornos, rótulos, datos, foco
+ *  10 % rosa neón (`pitch-*`, el nombre es histórico): acción principal y estado "hecho"
+ * Coral (`flare`) solo decora (degradados de borde, fondo). Rojo = alerta.
+ * Hielo (`ice-*`, ≈ 5 %): contraste frío puntual (foco, hoy, descanso, final de bordes, fondo).
+ */
 @theme {
-  --color-pitch-50: #e8f8ec;
-  --color-pitch-100: #c6edcf;
-  --color-pitch-200: #9ce0ac;
-  --color-pitch-300: #6bd184;
-  --color-pitch-400: #3fbd61;
-  --color-pitch-500: #2aa14a;
-  --color-pitch-600: #1f8039;
-  --color-pitch-700: #19622e;
-  --color-pitch-800: #144a24;
-  --color-pitch-900: #0f351a;
-  --color-pitch-950: #0b1f12;
+  /* Rosa neón: acción principal y estado (hecho, partido). Nombre «pitch» heredado. */
+  --color-pitch-50: #ffeaf2;
+  --color-pitch-100: #ffc8de;
+  --color-pitch-200: #ff93be;
+  --color-pitch-300: #ff5c9d;
+  --color-pitch-400: #f52b7c;
+  --color-pitch-500: #d41461;
+  --color-pitch-600: #a80e4c;
+  --color-pitch-700: #7f0d3b;
+  --color-pitch-800: #5a0c2b;
+  --color-pitch-900: #3d091e;
+  --color-pitch-950: #240511;
 
-  /* Dorado de trofeo: el color cálido que acompaña al negro (el 30 % del reparto 60-30-10) */
-  --color-gold-100: #fdf0d5;
-  --color-gold-200: #fbdca0;
-  --color-gold-300: #f8c96f;
-  --color-gold-400: #f5b544;
-  --color-gold-500: #e09a22;
-  --color-gold-600: #b87a14;
-  --color-gold-700: #8a5a10;
-  --color-gold-800: #5c3c0c;
-  --color-gold-900: #33220a;
-  --color-gold-950: #1f1507;
+  /* Ámbar neón: el color de apoyo (30 %) */
+  --color-neon-100: #ffedd6;
+  --color-neon-200: #ffd8a6;
+  --color-neon-300: #ffbe6a;
+  --color-neon-400: #ff9f22;
+  --color-neon-500: #e88300;
+  --color-neon-600: #bd6b00;
+  --color-neon-700: #8f5100;
+  --color-neon-800: #623903;
+  --color-neon-900: #3b2406;
+  --color-neon-950: #241604;
 
-  /* Fondo casi negro; placas y bordes en negro tostado para que el dorado (30 %) case con todo */
-  --color-bg: #0b0806;
-  --color-surface: #181613;
-  --color-surface-2: #201d19;
-  --color-border: #36312a;
+  /* Coral: solo decoración (bordes en degradado, fondo) */
+  --color-flare-300: #ff9a85;
+  --color-flare-400: #ff5c3a;
+  --color-flare-500: #e8401f;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Space Grotesk", var(--font-sans);
-  /* Condensada deportiva, estilo dorsal: títulos grandes sin cortar nombres largos */
-  --font-condensed: "Barlow Condensed", "Arial Narrow", var(--font-sans);
+  /* Hielo: el toque frío de contraste (≈ 5 %): foco de los campos, hoy, descanso, final de los bordes */
+  --color-ice-200: #b3f1ff;
+  --color-ice-300: #7ee8ff;
+  --color-ice-400: #40dcff;
+  --color-ice-500: #14b8e0;
+  --color-ice-600: #0c8db0;
+
+  /* Noche cálida: fondo y cristal de los recuadros */
+  --color-bg: #0f0506;
+  --color-surface: #220c0f;
+  --color-surface-2: #2e1216;
+  --color-border: #56262c;
+
+  --font-sans: "Josefin Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Rótulos, botones y cifras: geométrica vintage elegante (elegida por el usuario) */
+  --font-hud: "Josefin Sans", var(--font-sans);
+  --font-display: var(--font-hud);
+  /* Títulos grandes: letra de pincel, como un rótulo de neón hecho a mano */
+  --font-neon: "Kaushan Script", var(--font-hud);
 }
 
 :root {
   color-scheme: dark;
-  /* Una sola fuente de luz cenital: todo bisel/sombra de la app nace de aquí */
-  --board-shadow-rest: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 20px -8px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5);
-  --board-shadow-lift: 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 20px 36px -10px rgba(0, 0, 0, 0.75), 0 6px 10px rgba(0, 0, 0, 0.55);
-  --board-shadow-inset: inset 0 2px 6px rgba(0, 0, 0, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.03);
-  --chalk: rgba(238, 245, 240, 0.55);
+  --amber: 255 159 34;
+  --ember: 255 92 58;
+  --hot: 245 43 124;
+  --ice: 64 220 255;
+  /* Profundidad: sombra oscura + halo de neón muy tenue */
+  --board-shadow-rest: 0 0 0 1px rgb(var(--amber) / 0.04), 0 14px 30px -14px rgb(0 0 0 / 0.9), 0 0 24px -12px rgb(var(--amber) / 0.25);
+  --board-shadow-lift: 0 0 0 1px rgb(var(--amber) / 0.25), 0 20px 40px -12px rgb(0 0 0 / 0.9), 0 0 30px -6px rgb(var(--amber) / 0.5);
+  --board-shadow-inset: inset 0 2px 8px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(var(--amber) / 0.06);
+  --chalk: rgb(var(--amber) / 0.6);
 }
 
 html,
@@ -53,16 +81,49 @@ body,
 }
 
 body {
-  color: #eef5f0;
+  color: #fff1ee;
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
-  /* El fondo visible es el estadio 3D (components/layout/AppBackground); esto solo cubre el rebote del scroll */
+  /* El fondo visible es el estadio de neón (components/layout/AppBackground) */
   background-color: var(--color-bg);
+  overscroll-behavior-y: none;
 }
 
-/* evita el "pull to refresh" accidental y mejora el tacto en móvil */
+/*
+ * Josefin Sans tiene la x muy baja: el texto en minúscula se lee pequeño en el móvil.
+ * font-size-adjust agranda solo ese texto corrido (descripciones, fechas, notas). Lo que va en
+ * mayúsculas (botones, rótulos, fichas), las cifras y la barra inferior ya se leen bien y no
+ * caben más grandes, así que se quedan como están; los títulos a pincel tampoco lo necesitan.
+ */
 body {
-  overscroll-behavior-y: none;
+  font-size-adjust: 0.46;
+}
+.uppercase,
+.font-hud,
+button,
+nav,
+.kicker,
+.field-label {
+  font-size-adjust: none;
+}
+
+/* Táctil: sin retardo de doble toque, sin menú de mantener pulsado ni selección accidental */
+button,
+a,
+summary,
+label,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+button,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+::selection {
+  background: rgb(var(--amber) / 0.35);
 }
 
 ::-webkit-scrollbar {
@@ -70,57 +131,348 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: linear-gradient(var(--color-neon-600), var(--color-ice-600));
   border-radius: 9999px;
 }
 
-/* Marco de pizarra: panel con bisel metálico, usado en cabeceras y tarjetas clave */
-.board-frame {
-  position: relative;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(245, 181, 68, 0.06), transparent 45%),
-    linear-gradient(180deg, #25211c 0%, #191714 6%, #151311 100%);
-  border: 1px solid rgba(245, 181, 68, 0.14);
-  box-shadow: var(--board-shadow-rest);
+/* En capa de componentes: así las utilidades (sticky, fixed, rounded…) siguen mandando */
+@layer components {
+  /*
+   * Recuadro de cristal oscuro con borde de luz. El borde es un degradado cian → violeta
+   * (máscara sobre un pseudo-elemento) que se enciende al tocar o enfocar algo dentro.
+   */
+  .board-frame {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgb(var(--amber) / 0.07), transparent 55%),
+      radial-gradient(90% 70% at 100% 100%, rgb(var(--ice) / 0.07), transparent 60%),
+      linear-gradient(165deg, rgb(54 20 25 / 0.86), rgb(22 7 9 / 0.9));
+    border: 1px solid rgb(var(--amber) / 0.1);
+    box-shadow: var(--board-shadow-rest);
+  }
+
+  .board-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgb(var(--edge, var(--amber)) / 0.95),
+      rgb(var(--edge, var(--amber)) / 0.15) 30%,
+      transparent 50%,
+      rgb(var(--ice) / 0.2) 72%,
+      rgb(var(--ice) / 0.85)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.55;
+    pointer-events: none;
+    transition:
+      opacity 0.3s ease,
+      filter 0.3s ease;
+  }
+
+  .board-frame:focus-within::before,
+  .board-frame:active::before {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgb(var(--edge, var(--amber)) / 0.9));
+  }
+
+  @media (hover: hover) {
+    .board-frame:hover::before {
+      opacity: 1;
+      filter: drop-shadow(0 0 4px rgb(var(--edge, var(--amber)) / 0.9));
+    }
+  }
 }
 
-/* Antetítulo dorado espaciado, encima de los títulos condensados */
+/*
+ * Cabecera fija y barra inferior: cristal casi opaco. Sustituye al backdrop-filter, que en el
+ * móvil recalculaba el desenfoque del estadio animado en cada fotograma.
+ */
+@layer components {
+  .board-frame--solid {
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgb(var(--amber) / 0.07), transparent 55%),
+      linear-gradient(165deg, rgb(48 14 20 / 0.97), rgb(20 5 8 / 0.97));
+  }
+}
+
+/* Título en tubo de neón: núcleo casi blanco y halo cian. Se "enciende" con un parpadeo al aparecer. */
+.neon-title {
+  font-family: var(--font-neon);
+  font-weight: 400;
+  letter-spacing: 0;
+  /* La letra de pincel se escribe en minúscula con inicial: en mayúsculas no enlaza ni se lee bien.
+     Sin capa, así gana a la utilidad `uppercase` que llevan los títulos. */
+  text-transform: none;
+  font-size-adjust: none;
+  line-height: 1.15;
+  padding-bottom: 0.06em;
+  color: #fff9f1;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 6px rgb(var(--glow-rgb, var(--amber)) / 0.95),
+    0 0 16px rgb(var(--glow-rgb, var(--amber)) / 0.6),
+    0 0 34px rgb(var(--glow-rgb, var(--amber)) / 0.35);
+  animation: neon-on 1.1s steps(1, end) both;
+}
+
+.neon-title--hot {
+  --glow-rgb: var(--hot);
+}
+.neon-title--ice {
+  --glow-rgb: var(--ice);
+}
+.neon-title--ember {
+  --glow-rgb: var(--ember);
+}
+
+@keyframes neon-on {
+  0% {
+    opacity: 0.15;
+  }
+  12% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0.55;
+  }
+  44%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Antetítulo: rótulo cian espaciado con un guion luminoso delante */
 .kicker {
-  font-family: var(--font-condensed);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-hud);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--color-neon-300);
+  text-shadow: 0 0 8px rgb(var(--amber) / 0.65);
+}
+
+.kicker::before {
+  content: '';
+  width: 1rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-ice-400), var(--color-neon-400));
+  box-shadow: 0 0 6px rgb(var(--amber) / 0.9);
+}
+
+/* Etiqueta de campo de formulario: misma en todos (texto, escalas, molestias) */
+.field-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-family: var(--font-hud);
   font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-gold-400);
+  color: var(--color-neon-300);
+  text-shadow: 0 0 8px rgb(var(--amber) / 0.5);
 }
 
-/* Marca de agua gigante y tenue (número de día, icono): relleno visual sin ruido */
+/* Marca de agua gigante (número de día): letra hueca con contorno de neón apagado */
 .bg-watermark {
   position: absolute;
   pointer-events: none;
-  font-family: var(--font-condensed);
-  font-weight: 800;
+  font-family: var(--font-hud);
+  font-weight: 700;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.045);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(var(--amber) / 0.13);
   user-select: none;
 }
 
-/* Ficha imantada: bisel radial + sombra proyectada, se levanta al arrastrar */
+/* Pieza de cristal: se ilumina y se levanta al tocarla o arrastrarla */
 .piece {
   box-shadow: var(--board-shadow-rest);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
 }
 .piece-lift,
 .piece:active {
   transform: translateY(-2px) scale(1.02);
+  border-color: rgb(var(--amber) / 0.6);
   box-shadow: var(--board-shadow-lift);
 }
 
-/* Etiqueta MD "a tiza": ligera rotación e irregularidad de rotulador */
+/* Etiqueta MD: placa de neón con el color de su fase */
 .chalk-label {
-  font-family: var(--font-display);
-  letter-spacing: 0.02em;
-  transform: rotate(-1.5deg);
+  font-family: var(--font-hud);
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 14px -4px currentColor;
+}
+
+/* Emblema (categorías, ajustes): anillo de neón cian con núcleo oscuro */
+.emblem {
+  background: radial-gradient(circle at 50% 40%, rgb(255 159 34 / 0.3), rgb(59 36 6 / 0.6) 55%, #160608 80%);
+  box-shadow:
+    inset 0 0 0 1.5px #ff9f22,
+    inset 0 0 12px rgb(255 159 34 / 0.5),
+    0 0 16px -2px rgb(255 159 34 / 0.75);
+}
+
+/*
+ * Orbe de tipo de sesión: disco de cristal oscuro con anillo de neón del color del tipo.
+ * Lleva su color en --orb (las clases orb--* lo fijan). Sin capa: gana a los degradados
+ * de Tailwind que puedan quedar en el mismo elemento.
+ */
+.orb {
+  --orb: var(--amber);
+  background: radial-gradient(circle at 50% 38%, rgb(var(--orb) / 0.42), rgb(var(--orb) / 0.08) 58%, rgb(20 6 8 / 0.92) 78%);
+  box-shadow:
+    inset 0 0 0 1.5px rgb(var(--orb) / 0.95),
+    inset 0 0 10px rgb(var(--orb) / 0.45),
+    0 0 14px -2px rgb(var(--orb) / 0.75);
+}
+.orb--equipo {
+  --orb: 255 64 80;
+}
+.orb--gimnasio {
+  --orb: 255 138 31;
+}
+.orb--carrera {
+  --orb: 255 214 64;
+}
+.orb--movilidad {
+  --orb: 255 79 208;
+}
+.orb--descanso {
+  --orb: 110 190 255;
+}
+.orb--partido {
+  --orb: 255 236 160;
+}
+
+/*
+ * Botones de neón. Primario: tubo verde con halo que late (la acción a hacer).
+ * Secundario: tubo cian. Peligro: rojo-rosa. Al pulsar, el tubo se "rellena" de luz.
+ */
+.btn-neon,
+.btn-neon-cyan,
+.btn-neon-danger {
+  --btn: var(--hot);
+  border: 1.5px solid rgb(var(--btn) / 0.95);
+  background: linear-gradient(180deg, rgb(var(--btn) / 0.2), rgb(var(--btn) / 0.06));
+  color: rgb(var(--btn) / 1);
+  text-shadow: 0 0 8px rgb(var(--btn) / 0.75);
+  box-shadow:
+    0 0 16px -4px rgb(var(--btn) / 0.8),
+    inset 0 0 14px -4px rgb(var(--btn) / 0.75);
+  transition:
+    transform 0.14s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+.btn-neon {
+  color: var(--color-pitch-200);
+}
+.btn-neon-cyan {
+  --btn: var(--amber);
+  color: var(--color-neon-200);
+  border-color: rgb(var(--btn) / 0.6);
+  background: linear-gradient(180deg, rgb(var(--btn) / 0.12), rgb(var(--btn) / 0.03));
+  box-shadow:
+    0 0 12px -5px rgb(var(--btn) / 0.7),
+    inset 0 0 10px -5px rgb(var(--btn) / 0.6);
+}
+.btn-neon-danger {
+  --btn: 255 75 62;
+  color: #ffc4bc;
+  border-color: rgb(var(--btn) / 0.7);
+}
+
+.btn-neon:active,
+.btn-neon-cyan:active,
+.btn-neon-danger:active {
+  transform: translateY(1px) scale(0.98);
+  background: rgb(var(--btn) / 0.32);
+  color: #fff;
+  box-shadow:
+    0 0 28px -2px rgb(var(--btn) / 0.95),
+    inset 0 0 22px -2px rgb(var(--btn) / 0.9);
+}
+
+@media (hover: hover) {
+  .btn-neon:hover,
+  .btn-neon-cyan:hover,
+  .btn-neon-danger:hover {
+    box-shadow:
+      0 0 24px -3px rgb(var(--btn) / 0.9),
+      inset 0 0 18px -3px rgb(var(--btn) / 0.8);
+  }
+}
+
+.btn-neon:disabled,
+.btn-neon-cyan:disabled,
+.btn-neon-danger:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  text-shadow: none;
+  animation: none;
+}
+
+/*
+ * El primario "late": un halo más grande en un pseudo-elemento que solo cambia de opacidad.
+ * Animar la opacidad lo hace la GPU; animar box-shadow repintaría el botón en cada fotograma
+ * (en el móvil se nota en batería y en tirones al hacer scroll).
+ * En capa de componentes: position relative no pisa a fixed/absolute (el botón flotante).
+ */
+@layer components {
+  .btn-pulse {
+    position: relative;
+  }
+  .btn-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    box-shadow:
+      0 0 26px -2px rgb(var(--btn) / 0.95),
+      inset 0 0 18px -3px rgb(var(--btn) / 0.85);
+    opacity: 0;
+    pointer-events: none;
+    animation: neon-pulse 2.6s ease-in-out infinite;
+  }
+}
+
+@keyframes neon-pulse {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes snap-in {
@@ -133,7 +485,14 @@ body {
     opacity: 1;
   }
 }
-/* decelera fuerte sin rebote: una placa que se asienta, no un muelle */
+/* decelera fuerte sin rebote: un panel que se asienta, no un muelle */
 .animate-snap-in {
   animation: snap-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-title,
+  .btn-pulse::after {
+    animation: none;
+  }
 }

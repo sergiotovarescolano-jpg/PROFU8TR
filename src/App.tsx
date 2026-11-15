@@ -20,7 +20,8 @@ export function App() {
   return (
     <HashRouter>
       <AppBackground />
-      <div className="min-h-screen pb-20">
+      {/* Columna de móvil también en ordenador: en pantallas anchas las fichas y tarjetas no se estiran */}
+      <div className="mx-auto min-h-screen max-w-xl pb-[calc(5rem+env(safe-area-inset-bottom))]">
         <Routes>
           <Route path="/" element={<WeekPage />} />
           <Route path="/ejercicios" element={<ExercisesPage />} />

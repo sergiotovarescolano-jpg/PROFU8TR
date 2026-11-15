@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 
 const fieldBase =
-  'w-full min-h-12 rounded-xl border border-border bg-surface-2 px-4 text-base text-white placeholder:text-white/35 shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)] transition-shadow focus:border-gold-400 focus:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5),0_0_0_3px_rgba(245,181,68,0.2)] focus:outline-none'
+  'w-full min-h-12 rounded-xl border border-flare-400/25 bg-[#19080a]/80 px-4 text-base text-white placeholder:text-white/30 shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)] transition-[border-color,box-shadow] duration-200 focus:border-ice-400 focus:shadow-[inset_0_0_14px_-4px_rgba(64,220,255,0.6),0_0_18px_-4px_rgba(64,220,255,0.75)] focus:outline-none'
 
 interface WrapperProps {
   label: string
@@ -11,7 +11,7 @@ interface WrapperProps {
 export function FieldWrapper({ label, children }: WrapperProps) {
   return (
     <label className="mb-3 block">
-      <span className="font-condensed mb-1.5 block text-base font-bold tracking-wider text-gold-200/85 uppercase">{label}</span>
+      <span className="field-label">{label}</span>
       {children}
     </label>
   )

@@ -42,15 +42,32 @@ se configura para una dirección concreta (hay que añadirla como origen autoriz
 
 ### Opción A — GitHub Pages (recomendada)
 
-Se publica sola cada vez que subes cambios. Repositorio:
-<https://github.com/sergiotovarescolano-jpg/PROFU8TR> (público: GitHub Pages gratis lo exige; se
-ve el código, nunca tus datos, que no salen de tu móvil). Dirección final:
-`https://sergiotovarescolano-jpg.github.io/PROFU8TR/`
+Se publica sola cada vez que subes cambios. Dirección final:
+`https://TU_USUARIO.github.io/futbol-planner/`
 
-1. En el repositorio: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Ve a la pestaña **Actions**. Si la primera ejecución sale en rojo es normal: se lanzó antes
-   del paso 1. Entra en **Desplegar en GitHub Pages → Run workflow → Run workflow**.
-3. Cuando salga en verde (1–2 minutos), abre `https://sergiotovarescolano-jpg.github.io/PROFU8TR/`
+1. Crea una cuenta en <https://github.com> si no la tienes.
+2. Entra en <https://github.com/new>:
+   - **Repository name:** `futbol-planner`
+   - **Public** (GitHub Pages gratis exige repositorio público: se ve el código, nunca tus datos,
+     que no salen de tu móvil).
+   - No marques README, .gitignore ni licencia: el proyecto ya los trae.
+   - Pulsa **Create repository**.
+3. Abre una terminal en la carpeta del proyecto y ejecuta (cambia `TU_USUARIO`):
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Primera versión"
+   git branch -M main
+   git remote add origin https://github.com/TU_USUARIO/futbol-planner.git
+   git push -u origin main
+   ```
+
+   La primera vez, Windows abre el navegador para que inicies sesión en GitHub.
+4. En el repositorio: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+5. Ve a la pestaña **Actions**. Si la primera ejecución sale en rojo es normal: se lanzó antes
+   del paso 4. Entra en **Desplegar en GitHub Pages → Run workflow → Run workflow**.
+6. Cuando salga en verde (1–2 minutos), abre `https://TU_USUARIO.github.io/futbol-planner/`
    en el móvil e instálala (instrucciones en Ajustes de la propia app).
 
 **Actualizar:** después de cualquier cambio,
@@ -68,9 +85,9 @@ cambio, ciérrala del todo y vuelve a abrirla.
 
 Dirección final: `https://NOMBRE.netlify.app` (el nombre lo eliges tú en Netlify).
 
-**Con GitHub** (se publica sola en cada `git push`): entra en
+**Con GitHub** (se publica sola en cada `git push`): haz los pasos 1–3 de la opción A, entra en
 <https://app.netlify.com>, **Add new site → Import an existing project → GitHub**, elige
-`PROFU8TR` y pulsa **Deploy**. La configuración la lee de `netlify.toml`. Con Netlify el
+`futbol-planner` y pulsa **Deploy**. La configuración la lee de `netlify.toml`. Con Netlify el
 repositorio puede ser privado.
 
 **Sin GitHub** (subida manual): ejecuta `npm run build`, inicia sesión en
@@ -112,7 +129,7 @@ no hace falta tarjeta ni cuenta de facturación en Google Cloud.
    - **Tipo de aplicación:** Aplicación web. **Nombre:** `Fútbol Planner web`.
    - **Orígenes de JavaScript autorizados** → **Añadir URI**, uno por cada dirección donde uses la
      app, **sin ruta ni barra final**:
-     - GitHub Pages: `https://sergiotovarescolano-jpg.github.io` (sin `/PROFU8TR`)
+     - GitHub Pages: `https://TU_USUARIO.github.io` (sin `/futbol-planner`)
      - Netlify: `https://NOMBRE.netlify.app`
      - En tu ordenador, para probar: `http://localhost:5173`
      La propia app te muestra el origen exacto (con botón **Copiar**) en Ajustes → Google Calendar.
@@ -159,6 +176,11 @@ Los cambios de orígenes pueden tardar unos minutos en aplicarse en Google.
   ocultarlo o borrarlo allí. Si lo borras y vuelves a conectar, se crea otro y se sube todo.
 
 ## Tus datos
+
+La biblioteca de ejercicios **empieza vacía**: añades los tuyos desde Ejercicios o, directamente,
+al montar una rutina («+ Crear ejercicio nuevo» en la ventana de añadir ejercicio). Si tenías la
+versión anterior instalada, al actualizar se quitan solos los ejercicios que venían de serie,
+salvo los que ya uses en alguna rutina, sesión o plantilla.
 
 Todo se guarda en el navegador del dispositivo. Desde **Ajustes** puedes exportar una copia en
 JSON, importarla en otro móvil, pedir al navegador que no borre los datos y borrarlo todo.

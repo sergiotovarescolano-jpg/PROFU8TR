@@ -17,12 +17,12 @@ function Section({ title, icon, children }: { title: string; icon: string; child
       </span>
       <div className="relative mb-2 flex items-center gap-3">
         <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#5c3c0c,#1f1507_75%)] text-xl shadow-[inset_0_0_0_2px_#e09a22,0_4px_10px_-4px_rgba(245,181,68,0.5)]"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full emblem text-xl"
           aria-hidden="true"
         >
           {icon}
         </span>
-        <h2 className="font-condensed text-2xl font-bold text-white uppercase">{title}</h2>
+        <h2 className="font-hud text-2xl font-bold text-white uppercase">{title}</h2>
       </div>
       <div className="relative">{children}</div>
     </section>
@@ -79,7 +79,7 @@ export function SettingsPage() {
 
   async function handleReset() {
     await resetAllData()
-    setMessage({ kind: 'ok', text: 'Datos borrados. La biblioteca de ejercicios vuelve a estar como al principio.' })
+    setMessage({ kind: 'ok', text: 'Datos borrados. La app está vacía, como recién instalada.' })
   }
 
   async function handlePersist() {
@@ -180,7 +180,7 @@ export function SettingsPage() {
 
       <Section title="Borrar todo" icon="🧹">
         <p className="mb-3 text-sm text-white/60">
-          Elimina semanas, sesiones, partidos, rutinas y plantillas, y deja la biblioteca de ejercicios como al principio. No se puede
+          Elimina semanas, sesiones, partidos, rutinas, plantillas y tus ejercicios: la app queda vacía. No se puede
           deshacer: exporta antes una copia si la quieres conservar.
         </p>
         <ConfirmButton fullWidth confirmLabel="Pulsa otra vez para borrarlo todo" onConfirm={handleReset}>

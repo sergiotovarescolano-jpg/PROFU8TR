@@ -45,10 +45,10 @@ export function ExerciseCard({ exercise, index, onEdit }: ExerciseCardProps) {
             <span className="emblem flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl" aria-hidden="true">
               {info.icon}
             </span>
-            <span className="font-condensed text-sm font-bold tracking-[0.18em] text-gold-300 uppercase">{info.label}</span>
+            <span className="font-hud text-sm font-bold tracking-[0.18em] text-neon-300 uppercase">{info.label}</span>
           </div>
 
-          <p className="font-condensed mt-2 line-clamp-2 text-[1.75rem] leading-[1.05] font-bold text-white uppercase">{exercise.name}</p>
+          <p className="font-hud mt-2 line-clamp-2 text-[1.75rem] leading-[1.05] font-bold text-white uppercase">{exercise.name}</p>
           {exercise.description && <p className="mt-1 line-clamp-1 pr-8 text-sm text-white/50">{exercise.description}</p>}
 
           <div className="mt-auto flex items-end justify-between gap-2">
@@ -57,10 +57,10 @@ export function ExerciseCard({ exercise, index, onEdit }: ExerciseCardProps) {
                 <span className="truncate rounded-full bg-white/8 px-2.5 py-1 text-xs font-medium text-white/80">{exercise.muscleGroup}</span>
               )}
               {equipment && (
-                <span className="truncate rounded-full border border-gold-400/30 px-2.5 py-1 text-xs text-gold-200">{equipment}</span>
+                <span className="truncate rounded-full border border-neon-400/30 px-2.5 py-1 text-xs text-neon-200">{equipment}</span>
               )}
             </div>
-            <span className="flip-hint flex shrink-0 items-center gap-1 text-xs font-semibold text-gold-300">
+            <span className="flip-hint flex shrink-0 items-center gap-1 text-xs font-semibold text-neon-300">
               <FlipIcon /> Detalles
             </span>
           </div>
@@ -72,14 +72,14 @@ export function ExerciseCard({ exercise, index, onEdit }: ExerciseCardProps) {
             <span className="text-lg" aria-hidden="true">
               {info.icon}
             </span>
-            <p className="font-condensed truncate text-lg font-bold text-gold-200 uppercase">{exercise.name}</p>
+            <p className="font-hud truncate text-lg font-bold text-neon-200 uppercase">{exercise.name}</p>
           </div>
 
           <div className="mt-1.5 min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-sm" onClick={(e) => e.stopPropagation()}>
             {exercise.description && <p className="leading-snug text-white/80">{exercise.description}</p>}
             {exercise.notes && (
-              <p className="rounded-lg border-l-2 border-gold-400 bg-gold-400/10 px-2.5 py-1.5 text-white/75">
-                <span className="font-semibold text-gold-200">Nota: </span>
+              <p className="rounded-lg border-l-2 border-neon-400 bg-neon-400/10 px-2.5 py-1.5 text-white/75">
+                <span className="font-semibold text-neon-200">Nota: </span>
                 {exercise.notes}
               </p>
             )}
@@ -100,7 +100,7 @@ export function ExerciseCard({ exercise, index, onEdit }: ExerciseCardProps) {
             <button
               type="button"
               onClick={onEdit}
-              className="flex min-h-10 items-center rounded-full border border-gold-400/60 px-4 text-sm font-semibold text-gold-200 active:scale-95"
+              className="flex min-h-10 items-center rounded-full border border-neon-400/60 px-4 text-sm font-semibold text-neon-200 active:scale-95"
             >
               Editar
             </button>

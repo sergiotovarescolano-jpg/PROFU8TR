@@ -1,6 +1,6 @@
 /*
- * Biblioteca de ejercicios. Reparto 60-30-10: negro de fondo, dorado como color cálido de
- * apoyo (emblemas, rótulos, filtro activo, bordes), verde solo para la acción de crear.
+ * Biblioteca de ejercicios. Reparto 60-30-10: noche de fondo, ámbar neón de apoyo (emblemas,
+ * rótulos, filtro activo, bordes), rosa neón solo para la acción de crear.
  */
 
 /* Tarjeta que se gira: delante el resumen, detrás descripción, notas y vídeo */
@@ -33,13 +33,22 @@
   transform: rotateY(180deg);
 }
 
-/* Cara frontal: placa oscura con veta dorada a la izquierda y emblema que brilla */
+/* Cara frontal: cristal oscuro con tubo de neón a la izquierda y emblema que brilla */
 .exercise-front {
   background:
-    radial-gradient(circle at 0% 0%, rgb(245 181 68 / 0.14), transparent 55%),
-    linear-gradient(180deg, #1f1d1a 0%, #161513 100%);
-  border: 1px solid rgb(245 181 68 / 0.18);
+    radial-gradient(circle at 0% 0%, rgb(255 159 34 / 0.13), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgb(255 149 123 / 0.12), transparent 60%),
+    linear-gradient(165deg, rgb(54 20 25 / 0.9), rgb(22 7 9 / 0.94));
+  border: 1px solid rgb(255 159 34 / 0.22);
   box-shadow: var(--board-shadow-rest);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.flip-card:active .exercise-front {
+  border-color: rgb(255 159 34 / 0.7);
+  box-shadow: var(--board-shadow-lift);
 }
 
 .exercise-front::before {
@@ -50,25 +59,20 @@
   bottom: 14px;
   width: 4px;
   border-radius: 0 4px 4px 0;
-  background: linear-gradient(180deg, #f8c96f, #b87a14);
-  box-shadow: 0 0 12px rgb(245 181 68 / 0.5);
+  background: linear-gradient(180deg, #ffd8a6, #ff9f22 40%, #ff957b);
+  box-shadow:
+    0 0 8px rgb(255 159 34 / 0.9),
+    0 0 18px rgb(255 159 34 / 0.5);
 }
 
 .exercise-back {
-  background: linear-gradient(180deg, #24201a 0%, #181613 100%);
-  border: 1px solid rgb(245 181 68 / 0.35);
+  background:
+    radial-gradient(circle at 100% 0%, rgb(255 149 123 / 0.16), transparent 55%),
+    linear-gradient(165deg, #38151a 0%, #20090c 100%);
+  border: 1px solid rgb(255 149 123 / 0.55);
   box-shadow: var(--board-shadow-lift);
 }
 
-/* Emblema de categoría: medalla dorada con canto */
-.emblem {
-  background: radial-gradient(circle at 35% 30%, #5c3c0c, #1f1507 75%);
-  box-shadow:
-    inset 0 0 0 2px #e09a22,
-    inset 0 0 0 4px #33220a,
-    inset 0 2px 6px rgb(255 255 255 / 0.2),
-    0 6px 14px -4px rgb(245 181 68 / 0.45);
-}
 
 /* Icono enorme y tenue al fondo de la tarjeta, como marca de agua */
 .watermark {
@@ -77,8 +81,8 @@
   bottom: -22px;
   font-size: 120px;
   line-height: 1;
-  opacity: 0.07;
-  filter: grayscale(1);
+  opacity: 0.08;
+  filter: grayscale(1) drop-shadow(0 0 10px rgb(255 159 34));
   transform: rotate(-12deg);
   pointer-events: none;
 }
@@ -122,12 +126,13 @@
 }
 
 .cat-chip[aria-pressed='true'] {
-  background: linear-gradient(180deg, #f8c96f, #e09a22);
-  border-color: #f8c96f;
-  color: #1f1507;
+  background: linear-gradient(180deg, rgb(255 159 34 / 0.25), rgb(255 159 34 / 0.08));
+  border-color: #ff9f22;
+  color: #fff4e6;
+  text-shadow: 0 0 8px rgb(255 159 34 / 0.9);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    0 6px 16px -6px rgb(245 181 68 / 0.7);
+    0 0 18px -4px rgb(255 159 34 / 0.9),
+    inset 0 0 12px -4px rgb(255 159 34 / 0.8);
 }
 
 @media (prefers-reduced-motion: reduce) {

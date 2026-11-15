@@ -1,6 +1,5 @@
 import { format } from 'date-fns'
 import { db } from '../db/db'
-import { seedExercises } from '../db/seed'
 import type {
   Exercise,
   ExerciseCategory,
@@ -288,10 +287,9 @@ export async function restoreBackup(backup: BackupFile): Promise<void> {
   }
 }
 
-/** Borra todo y vuelve a cargar la biblioteca de ejercicios inicial. */
+/** Borra todo, incluidos los ejercicios: la app queda vacía, como recién instalada. */
 export async function resetAllData(): Promise<void> {
   await db.transaction('rw', ALL_TABLES, async () => {
     await Promise.all(ALL_TABLES.map((t) => t.clear()))
-    await seedExercises()
   })
 }

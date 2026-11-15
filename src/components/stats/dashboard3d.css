@@ -1,9 +1,9 @@
 /*
- * Dashboard 3D (solo CSS). Regla 60-30-10:
- *  60 % grafito (fondo y suelo de las escenas)
- *  30 % placas (tarjetas y prismas neutros)
- *  10 % verde césped (semana o día destacado, cifra principal)
- * El coral no es decoración: solo marca el límite de sobrecarga (el dorado es el cálido decorativo).
+ * Dashboard 3D (solo CSS), estilo neón nocturno. Regla 60-30-10:
+ *  60 % noche (suelo de las escenas con rejilla ámbar)
+ *  30 % pizarra azul fría (prismas neutros, contraste con el rosa) con aristas hielo
+ *  10 % rosa neón (semana o día destacado, cifra principal)
+ * El rojo-rosa no es decoración: solo marca el límite de sobrecarga.
  * Luz única cenital, ligeramente desde delante: caras superiores claras, sombras hacia el fondo.
  */
 
@@ -25,6 +25,25 @@
   cursor: grabbing;
 }
 
+/* Versión compacta para un bloque del mosaico: mismo campo, a menor escala */
+.scene-3d[data-size='compact'] {
+  --floor-d: 76px;
+  height: 214px;
+  perspective: 560px;
+}
+
+.scene-3d[data-size='compact'] .floor-3d {
+  top: 64%;
+}
+
+.scene-3d[data-size='compact'] .prism-3d {
+  --w: 15px;
+}
+
+.scene-3d[data-size='compact'] .prism-3d .light-pool {
+  inset: -12px;
+}
+
 .floor-3d {
   position: absolute;
   left: 50%;
@@ -35,12 +54,15 @@
   margin-top: calc(var(--floor-d) / -2);
   transform-style: preserve-3d;
   transform: rotateX(var(--tilt-x)) rotateZ(var(--tilt-z));
-  border: 1px solid rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 159 34 / 0.45);
   border-radius: 6px;
-  /* franjas de corte de césped en grafito, con un velo de luz que cae hacia el fondo */
+  box-shadow: 0 0 18px -4px rgb(255 159 34 / 0.5);
+  /* rejilla de neón sobre noche, con un velo de luz que cae hacia el fondo */
   background:
-    linear-gradient(to top, rgb(255 255 255 / 0.04), transparent 70%),
-    repeating-linear-gradient(90deg, #121315 0 20px, #0e0f11 20px 40px);
+    linear-gradient(to top, rgb(255 159 34 / 0.08), transparent 70%),
+    linear-gradient(90deg, rgb(64 220 255 / 0.16) 0 1px, transparent 1px) 0 0 / 20px 100%,
+    linear-gradient(180deg, rgb(255 159 34 / 0.14) 0 1px, transparent 1px) 0 0 / 100% 20px,
+    linear-gradient(180deg, #2c0b0f, #1a0609);
 }
 
 /* Canto delantero del campo: le da grosor de tablero */
@@ -53,7 +75,8 @@
   height: 12px;
   transform-origin: bottom;
   transform: rotateX(90deg);
-  background: linear-gradient(to bottom, #1d1f24, #0b0b0d);
+  background: linear-gradient(to bottom, #46151c, #1a0508);
+  box-shadow: inset 0 1px 0 rgb(255 159 34 / 0.6);
   border-radius: 0 0 6px 6px;
 }
 
@@ -64,7 +87,7 @@
   left: 6px;
   right: 6px;
   bottom: 8px;
-  border-top: 1px dashed rgb(255 255 255 / 0.12);
+  border-top: 1px dashed rgb(255 160 240 / 0.45);
 }
 
 .slot-3d {
@@ -86,20 +109,22 @@
   margin-left: calc(var(--w) / -2);
   margin-top: calc(var(--w) / -2);
   transform-style: preserve-3d;
-  /* neutro: familia "placas" (30 %) */
-  --c-top: #484b55;
-  --c-front: #2f3139;
-  --c-side: #23252b;
-  --c-base: #141518;
+  /* neutro: vino (30 %) */
+  --c-top: #3f5478;
+  --c-front: #2a3a58;
+  --c-side: #1f2c46;
+  --c-base: #0a1020;
+  --c-edge: rgb(64 220 255 / 0.35);
   --c-pool: rgb(0 0 0 / 0);
 }
 
 .prism-3d[data-tone='accent'] {
-  --c-top: #6bd184;
-  --c-front: #34b057;
-  --c-side: #23803d;
-  --c-base: #0f351a;
-  --c-pool: rgb(63 189 97 / 0.28);
+  --c-top: #ff9dc4;
+  --c-front: #f52b7c;
+  --c-side: #b81254;
+  --c-base: #3a061b;
+  --c-pool: rgb(245 43 124 / 0.45);
+  --c-edge: rgb(255 200 222 / 0.9);
 }
 
 .prism-3d > div {
@@ -134,8 +159,10 @@
 .prism-3d .face-top {
   inset: 0;
   transform: translateZ(var(--h));
-  background: linear-gradient(135deg, rgb(255 255 255 / 0.18), transparent 60%), var(--c-top);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.22), transparent 60%), var(--c-top);
+  box-shadow:
+    inset 0 0 0 1px var(--c-edge),
+    0 0 12px -2px var(--c-edge);
 }
 
 .prism-3d .face-front,
@@ -190,8 +217,9 @@
 
 .slot-3d[aria-pressed='true'] .prism-3d .face-top {
   box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.55),
-    0 0 0 2px #0a0a0c;
+    inset 0 0 0 1.5px #fff,
+    0 0 0 2px #0f0506,
+    0 0 16px 2px rgb(255 159 34 / 0.9);
 }
 
 /* Plano del límite de sobrecarga (+30 %): lo que lo atraviesa es sobrecarga */
@@ -199,9 +227,9 @@
   position: absolute;
   inset: 4px;
   transform: translateZ(var(--h));
-  border: 1px dashed rgb(255 107 91 / 0.8);
+  border: 1px dashed rgb(255 75 62 / 0.8);
   border-radius: 4px;
-  background: linear-gradient(to top, rgb(255 107 91 / 0.16), rgb(255 107 91 / 0.05));
+  background: linear-gradient(to top, rgb(255 75 62 / 0.16), rgb(255 75 62 / 0.05));
   pointer-events: none;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -218,7 +246,9 @@
   transform: translateZ(var(--z)) rotateZ(calc(var(--tilt-z) * -1)) rotateX(calc(var(--tilt-x) * -1)) translate(-50%, -100%);
   white-space: nowrap;
   pointer-events: none;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.9);
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.9),
+    0 0 8px rgb(255 159 34 / 0.55);
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -233,16 +263,18 @@
   transform: translateZ(1px) rotateZ(calc(var(--tilt-z) * -1)) rotateX(calc(var(--tilt-x) * -1)) translate(-50%, -100%);
 }
 
-/* Cifra principal extruida en volumen (verde de acento sobre canto verde oscuro) */
+/* Cifra principal extruida en volumen: rosa neón sobre canto verde oscuro, con halo */
 .extruded-3d {
   text-shadow:
-    0 1px 0 #2a9a4b,
-    0 2px 0 #23803d,
-    0 3px 0 #1f6b37,
-    0 4px 0 #19622e,
-    0 5px 0 #144a24,
-    0 6px 0 #0f351a,
-    0 12px 16px rgb(0 0 0 / 0.7);
+    0 0 10px rgb(245 43 124 / 0.8),
+    0 1px 0 #d41461,
+    0 2px 0 #a80e4c,
+    0 3px 0 #7f0d3b,
+    0 4px 0 #5a0c2b,
+    0 5px 0 #3d091e,
+    0 6px 0 #240511,
+    0 12px 16px rgb(0 0 0 / 0.7),
+    0 0 30px rgb(245 43 124 / 0.45);
 }
 
 /* Cifras con relieve: placa gruesa inclinada, con canto visible y luz en el borde superior */
@@ -250,15 +282,16 @@
   transform: perspective(600px) rotateX(14deg);
   transform-origin: 50% 100%;
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.1),
-    0 1px 0 #34363e,
-    0 2px 0 #2c2e35,
-    0 3px 0 #26282e,
-    0 4px 0 #212329,
-    0 5px 0 #1b1c21,
-    0 6px 0 #16171b,
-    0 7px 0 #111214,
-    0 16px 20px -8px rgb(0 0 0 / 0.85);
+    inset 0 1px 0 rgb(255 159 34 / 0.45),
+    0 1px 0 #804233,
+    0 2px 0 #6e2b34,
+    0 3px 0 #5e242c,
+    0 4px 0 #4f1e25,
+    0 5px 0 #41181d,
+    0 6px 0 #331216,
+    0 7px 0 #260d10,
+    0 16px 20px -8px rgb(0 0 0 / 0.85),
+    0 10px 26px -10px rgb(255 159 34 / 0.5);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

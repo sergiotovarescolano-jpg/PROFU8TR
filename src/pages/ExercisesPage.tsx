@@ -34,21 +34,40 @@ export function ExercisesPage() {
         {exercises.map((ex, i) => (
           <ExerciseCard key={ex.id} exercise={ex} index={i} onEdit={() => setEditing(ex)} />
         ))}
-        {exercises.length === 0 && (
-          <div className="flex flex-col items-center gap-2 py-12 text-center">
-            <span className="text-5xl opacity-40" aria-hidden="true">
-              🔎
-            </span>
-            <p className="font-condensed text-xl font-bold text-white/70 uppercase">Nada por aquí</p>
-            <p className="text-sm text-white/45">Prueba otra palabra o cambia de categoría.</p>
-          </div>
-        )}
+        {exercises.length === 0 &&
+          (search.trim() || category !== 'todas' ? (
+            <div className="flex flex-col items-center gap-2 py-12 text-center">
+              <span className="text-5xl opacity-40" aria-hidden="true">
+                🔎
+              </span>
+              <p className="font-hud text-xl font-bold text-white/70 uppercase">Nada por aquí</p>
+              <p className="text-sm text-white/45">Prueba otra palabra o cambia de categoría.</p>
+            </div>
+          ) : (
+            // Biblioteca vacía: la app ya no trae ejercicios de serie, cada uno añade los suyos.
+            <div className="board-frame flex flex-col items-center gap-3 rounded-2xl px-5 py-8 text-center">
+              <span className="emblem flex h-16 w-16 items-center justify-center rounded-full text-3xl" aria-hidden="true">
+                🏋️
+              </span>
+              <p className="font-hud text-2xl font-extrabold text-white uppercase">Tu biblioteca, a tu manera</p>
+              <p className="text-sm text-white/55">
+                Añade los ejercicios que tú haces, con tu material y tus notas. Luego los usas en tus rutinas.
+              </p>
+              <button
+                type="button"
+                onClick={() => setCreating(true)}
+                className="font-hud btn-neon btn-pulse mt-1 min-h-12 rounded-xl px-6 text-lg font-bold tracking-[0.08em] uppercase"
+              >
+                ＋ Crear mi primer ejercicio
+              </button>
+            </div>
+          ))}
       </div>
 
       <button
         onClick={() => setCreating(true)}
         aria-label="Nuevo ejercicio"
-        className="fixed right-4 bottom-24 flex h-14 w-14 items-center justify-center rounded-full border border-pitch-700/60 bg-gradient-to-b from-pitch-400 to-pitch-600 text-3xl font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_24px_-6px_rgba(42,161,74,0.65)] transition-transform active:translate-y-px active:scale-95"
+        className="fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] flex h-14 w-14 items-center justify-center rounded-full btn-neon btn-pulse text-3xl font-bold active:scale-95"
       >
         +
       </button>

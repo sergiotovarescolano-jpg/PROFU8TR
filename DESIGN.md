@@ -2,6 +2,72 @@
 
 <!-- impeccable:design-schema 1 -->
 
+## Sistema vigente: Neón de atardecer (cuarta paleta, a petición del usuario)
+
+Mismo estilo neón (cristal, bordes de luz, tubos, títulos que se encienden) que la versión fría,
+pero con colores cálidos. Sustituye al dorado + Barlow Condensed y al neón cian/verde: donde las
+secciones antiguas digan «dorado», «gold-*», «cian», «verde», «violeta» o «font-condensed», lee esta tabla.
+Los nombres de token se conservan por historia: `neon-*` es el ámbar y `pitch-*` el rosa de acción.
+
+| Pieza | Ahora |
+|---|---|
+| Mundo | Estadio al atardecer en neón: cristal oscuro color vino, bordes de luz, rejilla synthwave y sol rayado en el horizonte |
+| 60 % | Noche cálida (vino casi negro): `--color-bg #0f0506`, `surface #220c0f`, `surface-2 #2e1216` |
+| 30 % | Ámbar neón `neon-*` (`neon-400 #ff9f22`, variable `--amber`): contornos, rótulos, datos, foco |
+| 10 % | Rosa neón `pitch-*` (`pitch-400 #f52b7c`, variable `--hot`): acción principal, estado «hecho», día de partido |
+| Contraste frío | Hielo `ice-*` (`ice-400 #40dcff`, variable `--ice`, ≈ 5 %): final del borde de los recuadros, foco de los campos, insignia y borde de «Hoy», guion de los rótulos, día de descanso (noche azul), foco derecho y línea central del fondo, prismas neutros del dashboard y semanas pasadas de la mini gráfica (pizarra azul) |
+| Decoración | Coral `flare-*` (`#ff5c3a`, variable `--ember`): degradados de borde, fondo |
+| Alerta | Rojo `#ff4b3e` en la UI. En gráficas el límite de sobrecarga va en ámbar oscuro `#bf7f00` frente a la serie rosa `#d42a6f` (validado en modo oscuro sobre `#26101a`; rojo frente a rosa no pasaba la prueba de daltonismo) |
+| Tipos de sesión | Equipo rojo `255 64 80`, Gimnasio naranja `255 138 31`, Carrera amarillo `255 214 64`, Movilidad magenta `255 79 208`, Descanso azul hielo `110 190 255` (la noche, el único tipo frío), Partido oro claro `255 236 160` |
+| Títulos | **Kaushan Script** (letra de pincel, rótulo de neón hecho a mano) con halo (`.neon-title`). Va en minúscula con inicial: `.neon-title` fuerza `text-transform: none` porque en mayúsculas el pincel no enlaza ni se lee. `--glow-rgb` cambia el color del halo |
+| Rótulos, botones, cifras | **Josefin Sans** (`font-hud`), geométrica vintage elegante. Elegida por el usuario en una segunda comparativa de 8 (antes descartó Poppins, Nunito, Manrope, Rubik, Barlow, Chakra Petch y Outfit) |
+| Texto | **Josefin Sans** |
+
+La conversión de frío a cálido se hizo girando el tono de cada color (cian → ámbar, verde → rosa,
+índigo oscuro → vino, violeta → coral) conservando saturación y luminosidad, así que contrastes y
+jerarquía no cambian.
+
+**Piezas del sistema (`src/index.css`):**
+- `.board-frame` (capa `components`): cristal oscuro con borde en degradado ámbar → coral hecho con un
+  pseudo-elemento enmascarado; se enciende con `:active`, `:focus-within` y `:hover`. `--edge` (tripleta RGB)
+  cambia el color del borde: cada día lo pone del color de lo que toca (rosa partido, lavanda descanso,
+  color del tipo de sesión).
+- Botones: `.btn-neon` (rosa, primario), `.btn-neon-cyan` (ámbar, secundario; nombre histórico), `.btn-neon-danger`; `.btn-pulse`
+  hace latir el halo (solo en la acción principal de cada pantalla: guardar, crear, registrar partido, FAB).
+  `Button.tsx` los usa por variante.
+- `.orb` + `.orb--{equipo,gimnasio,carrera,movilidad,descanso,partido}`: disco de cristal con anillo de neón del
+  color del tipo. Es el `piece` de `SESSION_TYPE_INFO`, que además da `rgb` para halos y bordes.
+- `.emblem` (global): anillo ámbar para categorías y ajustes. `.kicker`: rótulo ámbar (una línea) con guion luminoso.
+  `.bg-watermark`: número hueco con contorno de neón.
+- Fondo (`appBackground.css`): **estadio de noche visto desde la grada** (elegido por el usuario entre campo de neón,
+  estadio, auroras y ciudad). Grada del fondo en silueta curva (más alta en los lados) con el público como puntitos
+  cálidos y flashes de móviles que destellan; cubierta con línea de luz hielo; anillo entre pisos con lucecitas;
+  vallas LED a pie de campo con franjas ámbar/rosa/hielo que corren; cuatro torres de focos LED de luz fría cuyos
+  haces se cruzan; césped verde muy oscuro en perspectiva con líneas de cal y charcos de luz. El borde de la grada
+  sale de `standTop()` en `AppBackground.tsx` y está copiado en el `clip-path` de `.app-bg__stand`: si cambias uno,
+  cambia el otro.
+- Ancho: toda la app va en una columna `max-w-xl` centrada (`App.tsx`); en ordenador el estadio se ve a los lados.
+- Etiquetas de formulario: clase común `.field-label` (campos, escalas RPE/fatiga, molestias, ajustes).
+- Cristal con desenfoque (`backdrop-blur`) solo en cabecera fija, barra inferior, ventanas y FAB: en las
+  tarjetas se omite porque el fondo se mueve y el desenfoque se recalcularía cada fotograma en el móvil.
+- Barra inferior: etiquetas en minúscula (las HUD son más anchas que Barlow; «Estadísticas» no cabía en
+  mayúsculas).
+
+**Optimización para móvil (rendimiento y uso):**
+- Sin `backdrop-filter` en cabecera, barra inferior, ventanas ni botones flotantes: con el estadio animado detrás,
+  el desenfoque se recalculaba cada fotograma. En su lugar `.board-frame--solid` (cristal casi opaco).
+- Fondo sin `filter: blur` ni `mix-blend-mode`: los haces son un `conic-gradient` con máscara; la bruma es un
+  degradado radial; el público ya no anima su opacidad (su capa lleva filtro y obligaba a repintarlo).
+- Paralaje del fondo desactivado en pantallas táctiles (`pointer: coarse`): cada arrastre al hacer scroll movía todo.
+- `.btn-pulse`: el latido anima la opacidad de un `::after`, no `box-shadow` (que repintaba el botón).
+- Zonas seguras del iPhone: `PageHeader` baja con `safe-area-inset-top`; el contenedor y los botones flotantes
+  suman `safe-area-inset-bottom`. Metadatos de app instalada (`apple-mobile-web-app-*`, barra translúcida).
+- Táctil: `touch-action: manipulation`, sin menú de mantener pulsado ni selección accidental en botones; botones de
+  cerrar y borrar búsqueda a 44/40 px.
+- Legibilidad: Josefin Sans tiene la x baja; `font-size-adjust: 0.46` agranda solo el texto corrido en minúscula
+  (mayúsculas, cifras, botones, barra inferior y títulos a pincel quedan igual porque no caben más grandes).
+- Fuentes de Google en caché del service worker (ya estaba): la app se ve igual sin conexión.
+
 ## World
 
 Pizarra táctica de vestuario. La app no es una lista de tarjetas: es un tablero casi negro,
@@ -167,7 +233,48 @@ brillantes en las esquinas superiores.
   (`ExercisePicker`), donde un toque elige el ejercicio sin girar.
 - `prefers-reduced-motion` quita giro, entrada y transiciones.
 
-## Dashboard 3D (pestaña Estadísticas)
+## "¿Qué toca?": elegir el tipo de día con fichas (`DayTypePicker`, `dayPicker.css`)
+
+- **Día vacío**: 6 fichas grandes en rejilla 3×2 (Equipo, Gimnasio, Carrera, Movilidad,
+  Descanso, Partido). Cada ficha es una pieza redonda con el degradado y el brillo de su tipo
+  (`SESSION_TYPE_INFO`; Partido en dorado con 🏆), entrada escalonada, se hunde y gira un poco al
+  pulsar. Un toque crea la sesión al momento (título = nombre del tipo); Partido abre la
+  ventana del día de partido. Hoy dice "¿Qué toca hoy?".
+- **El día se transforma** (`.day-morph`, clave por estado): con entreno, tinte radial del color
+  del tipo principal (`.day-tint`) e icono gigante inclinado de fondo (`.day-type-mark`); con
+  descanso, **modo noche** (`.day-rest`: azul noche con estrellas, luna que flota, "Día de
+  descanso" y consejo) con "↺ Cambiar" (quita el descanso y vuelven las fichas) y "+ Añadir".
+- La ventana de sesión usa las mismas fichas (sin Partido) para el tipo, con la elegida
+  resaltada (`aria-pressed`).
+- `SessionCard` sin ejercicios muestra "Sin ejercicios · toca para añadir" en dorado.
+
+## Biblioteca vacía
+
+Sin ejercicios de serie (`src/data` se eliminó). Migración Dexie v2 (`src/db/db.ts`) quita
+los 43 antiguos por nombre solo si nada los usa. Biblioteca vacía: bienvenida con medalla y
+botón verde "Crear mi primer ejercicio". `ExercisePicker` tiene arriba "+ Crear ejercicio
+nuevo" (usa lo escrito en el buscador como nombre) y el ejercicio creado entra directo.
+
+## Dashboard en mosaico (pestaña Estadísticas, versión actual)
+
+El usuario pidió cambiar toda la estructura: de columna larga a **mosaico tipo bento** con todo
+lo importante en la primera pantalla, manteniendo el 3D integrado. Rejilla de 6 columnas
+(`grid-cols-6`, hueco 8 px), ancho máximo `max-w-xl` centrado para que en escritorio no se
+estire:
+
+- Fila 1: **Carga** (4 col.) con la cifra extruida, el % frente a la media y `LoadSparkline`
+  (8 semanas, la elegida en verde, límite +30 % en coral discontinuo) · **Riesgo** (2 col.)
+  con `RiskMini` (semicírculo con canto, cifra, estado con icono y ratio).
+- Franja coral a todo el ancho solo si hay sobrecarga (consejo).
+- Bloque central: tres `StatPlate` con relieve (`plate-3d`) a la izquierda (2 col.) y
+  **Tu semana** (4 col. × 3 filas) con `Scene3D compact` (`data-size="compact"`: suelo 76 px,
+  prismas de 15 px, altura máx. 92 px) y el detalle del día tocado dentro del bloque.
+- **Últimas 8 semanas** en 3D a todo el ancho, con el plano del límite y la leyenda.
+- Plegados (`<details>`): progresión de peso y "ver datos en tabla" (las dos tablas).
+- Rótulos de bloque: condensada dorada espaciada (`Tile`). `RiskGauge` (versión grande)
+  se retiró; su lógica de arco vive en `RiskMini`.
+
+## Dashboard 3D (pestaña Estadísticas) — piezas 3D que reutiliza el mosaico
 
 Petición del usuario: dashboard "bastante visual (3D)" con regla de color 60-30-10. 3D solo
 con CSS (sin WebGL: 0 KB extra, fluido en cualquier móvil). Estilos en

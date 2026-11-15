@@ -86,16 +86,16 @@ export function ExerciseListEditor({ items, onChange, grouped = false }: Exercis
                 <section key={tier} aria-label={info.label}>
                   <div className="mb-2 flex items-center gap-2.5">
                     <span
-                      className={`font-condensed flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-xl font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_3px_8px_rgba(0,0,0,0.5)] ${info.medal}`}
+                      className={`font-hud flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-xl font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_3px_8px_rgba(0,0,0,0.5)] ${info.medal}`}
                       aria-hidden="true"
                     >
                       {info.letter}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-condensed text-xl leading-none font-extrabold text-white uppercase">{info.label}</p>
+                      <p className="font-hud text-xl leading-none font-extrabold text-white uppercase">{info.label}</p>
                       <p className="text-xs text-white/45">{info.hint}</p>
                     </div>
-                    <span className="font-condensed text-lg font-bold text-white/50 tabular-nums">{indices.length}</span>
+                    <span className="font-hud text-lg font-bold text-white/50 tabular-nums">{indices.length}</span>
                   </div>
                   <SortableContext items={indices.map((i) => ids[i])} strategy={verticalListSortingStrategy}>
                     <div className="space-y-2">{indices.map((i) => renderRow(items[i], i))}</div>
@@ -103,7 +103,7 @@ export function ExerciseListEditor({ items, onChange, grouped = false }: Exercis
                   <button
                     type="button"
                     onClick={() => setPickingTier(tier)}
-                    className="font-condensed mt-2 min-h-11 w-full rounded-xl border border-dashed border-gold-400/40 text-base font-bold tracking-wide text-gold-200 uppercase active:scale-[0.98] active:bg-gold-400/10"
+                    className="font-hud mt-2 min-h-11 w-full rounded-xl border border-dashed border-neon-400/40 text-base font-bold tracking-wide text-neon-200 uppercase active:scale-[0.98] active:bg-neon-400/10"
                   >
                     + Añadir {info.label.toLowerCase()}
                   </button>
@@ -159,7 +159,7 @@ function ExerciseRow({ id, badge, tier, name, item, onChange, onRemove }: Exerci
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition, boxShadow: isDragging ? 'var(--board-shadow-lift)' : 'var(--board-shadow-rest)' }}
       className={`rounded-xl border p-3 transition-colors ${
-        isDragging ? 'relative z-10 scale-[1.02] border-gold-400/70 bg-surface-2' : 'border-border bg-surface-2'
+        isDragging ? 'relative z-10 scale-[1.02] border-neon-400/70 bg-surface-2' : 'border-border bg-surface-2'
       }`}
     >
       <div className="mb-2 flex items-center gap-2">
@@ -168,17 +168,17 @@ function ExerciseRow({ id, badge, tier, name, item, onChange, onRemove }: Exerci
           {...attributes}
           {...listeners}
           aria-label={`Mover ${name}`}
-          className="flex h-10 w-7 shrink-0 cursor-grab touch-none items-center justify-center rounded-lg text-xl text-gold-300/70 active:bg-white/5"
+          className="flex h-10 w-7 shrink-0 cursor-grab touch-none items-center justify-center rounded-lg text-xl text-neon-300/70 active:bg-white/5"
         >
           ⠿
         </button>
         <span
-          className={`font-condensed flex h-9 min-w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b px-1 text-base font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.45)_inset] ${medal}`}
+          className={`font-hud flex h-9 min-w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b px-1 text-base font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.45)_inset] ${medal}`}
           aria-hidden="true"
         >
           {badge}
         </span>
-        <p className="font-condensed min-w-0 flex-1 text-xl leading-tight font-bold text-white uppercase">{name}</p>
+        <p className="font-hud min-w-0 flex-1 text-xl leading-tight font-bold text-white uppercase">{name}</p>
         <button
           onClick={onRemove}
           aria-label={`Quitar ${name}`}
@@ -196,7 +196,7 @@ function ExerciseRow({ id, badge, tier, name, item, onChange, onRemove }: Exerci
               type="button"
               aria-pressed={tier === t}
               onClick={() => tier !== t && onChange({ tier: t })}
-              className={`font-condensed min-h-9 rounded-md text-sm font-bold tracking-wide uppercase transition-colors ${
+              className={`font-hud min-h-9 rounded-md text-sm font-bold tracking-wide uppercase transition-colors ${
                 tier === t ? `bg-gradient-to-b ${TIER_INFO[t].medal}` : 'text-white/50 active:bg-white/10'
               }`}
             >
@@ -218,7 +218,7 @@ function ExerciseRow({ id, badge, tier, name, item, onChange, onRemove }: Exerci
         onChange={(e) => onChange({ notes: e.target.value || undefined })}
         placeholder="Notas"
         aria-label={`Notas de ${name}`}
-        className="mt-2 min-h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm placeholder:text-white/35 focus:border-gold-400 focus:outline-none"
+        className="mt-2 min-h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm placeholder:text-white/35 focus:border-neon-400 focus:outline-none"
       />
     </div>
   )

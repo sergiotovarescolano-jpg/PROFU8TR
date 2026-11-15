@@ -18,17 +18,15 @@ interface Scene3DProps {
   selectedKey?: string
   onSelect?: (key: string) => void
   ariaLabel: string
+  compact?: boolean // versión pequeña para un bloque del mosaico
 }
 
-const MAX_HEIGHT = 135
 const TILT_Z_DEFAULT = -24
 
-function heightFor(value: number, maxValue: number): number {
-  return maxValue > 0 ? Math.round((value / maxValue) * MAX_HEIGHT) : 0
-}
-
 /** Barras 3D sobre un campo en perspectiva. Se gira arrastrando en horizontal. */
-export function Scene3D({ bars, maxValue, limit, floorWidth = 280, selectedKey, onSelect, ariaLabel }: Scene3DProps) {
+export function Scene3D({ bars, maxValue, limit, floorWidth = 280, selectedKey, onSelect, ariaLabel, compact = false }: Scene3DProps) {
+  const maxHeight = compact ? 92 : 135
+  const heightFor = (value: number, max: number) => (max > 0 ? Math.round((value / max) * maxHeight) : 0)
   const [tiltZ, setTiltZ] = useState(TILT_Z_DEFAULT)
   const [grown, setGrown] = useState(false)
   const drag = useRef<{ x: number; tilt: number; moved: boolean } | null>(null)
@@ -46,6 +44,7 @@ export function Scene3D({ bars, maxValue, limit, floorWidth = 280, selectedKey, 
   return (
     <div
       className="scene-3d"
+      data-size={compact ? 'compact' : undefined}
       style={sceneStyle}
       role="group"
       aria-label={ariaLabel}
@@ -103,7 +102,7 @@ export function Scene3D({ bars, maxValue, limit, floorWidth = 280, selectedKey, 
 
               {bar.value > 0 && (
                 <span
-                  className={`billboard-3d font-display text-[11px] font-bold tabular-nums ${selected ? 'text-white' : 'text-white/60'}`}
+                  className={`billboard-3d font-hud font-bold tabular-nums ${compact ? 'text-[11px]' : 'text-[13px]'} ${selected ? 'text-white' : 'text-white/60'}`}
                   style={{ '--z': `${h + 6}px` } as CSSProperties}
                 >
                   {bar.value.toLocaleString('es-ES')}
@@ -111,8 +110,10 @@ export function Scene3D({ bars, maxValue, limit, floorWidth = 280, selectedKey, 
               )}
 
               <span className="billboard-3d text-center leading-tight" data-anchor="below">
-                <span className={`block text-[11px] font-semibold ${selected ? 'text-white' : 'text-white/60'}`}>{bar.label}</span>
-                {bar.sublabel && <span className="block text-[9px] text-white/40">{bar.sublabel}</span>}
+                <span className={`font-hud block font-bold ${compact ? 'text-[11px]' : 'text-[13px]'} ${selected ? 'text-white' : 'text-white/60'}`}>
+                  {bar.label}
+                </span>
+                {bar.sublabel && <span className={`block text-white/40 ${compact ? 'text-[8px]' : 'text-[9px]'}`}>{bar.sublabel}</span>}
               </span>
             </button>
           )

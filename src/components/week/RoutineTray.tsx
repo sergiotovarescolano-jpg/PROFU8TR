@@ -6,9 +6,9 @@ import type { Routine } from '../../types/models'
 export function RoutineChip({ routine }: { routine: Routine }) {
   const info = SESSION_TYPE_INFO[routine.sessionType ?? 'gimnasio']
   return (
-    <span className="piece font-condensed flex items-center gap-2 whitespace-nowrap rounded-full border border-gold-400/30 bg-surface-2 py-1.5 pl-1.5 pr-3 text-base font-bold tracking-wide text-white uppercase">
+    <span className="piece font-hud flex items-center gap-2 whitespace-nowrap rounded-full border border-neon-400/30 bg-surface-2 py-1.5 pl-1.5 pr-3 text-base font-bold tracking-wide text-white uppercase">
       <span
-        className={`flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-b text-sm shadow-[0_1px_0_rgba(255,255,255,0.4)_inset] ${info.piece}`}
+        className={`flex h-6 w-6 items-center justify-center rounded-full text-sm ${info.piece}`}
         style={{ filter: `drop-shadow(0 0 5px ${info.glow})` }}
       >
         {info.icon}
@@ -43,7 +43,7 @@ export function RoutineTray({ routines }: { routines: Routine[] }) {
     return (
       <p className="mt-2 text-center text-sm text-white/50">
         Aún no tienes rutinas.{' '}
-        <Link to="/rutinas" className="font-medium text-gold-300">
+        <Link to="/rutinas" className="font-medium text-neon-300">
           Crear una
         </Link>
       </p>

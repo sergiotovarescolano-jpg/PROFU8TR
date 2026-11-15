@@ -20,7 +20,7 @@ export function SyncChip() {
         : `Google Calendar · ${config.lastSyncAt ? formatDistanceToNow(parseISO(config.lastSyncAt), { locale: es, addSuffix: true }) : 'pendiente'}`
   const tone =
     needsReconnect || status.error
-      ? 'border-[#ff6b5b]/45 bg-[#ff6b5b]/10 text-[#ffb4ab]'
+      ? 'border-[#ff4b3e]/45 bg-[#ff4b3e]/10 text-[#ffc4bc]'
       : 'border-white/10 bg-black/25 text-white/60'
 
   return (

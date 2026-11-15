@@ -51,18 +51,18 @@ export function RoutinesPage() {
 
               <div className="relative flex items-center gap-3">
                 <span
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-2xl shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_10px_rgba(0,0,0,0.5)] ${info.piece}`}
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl ${info.piece}`}
                   style={{ filter: `drop-shadow(0 0 8px ${info.glow})` }}
                   aria-hidden="true"
                 >
                   {info.icon}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-condensed text-sm font-bold tracking-[0.18em] text-gold-300 uppercase">{info.label}</p>
-                  <p className="font-condensed line-clamp-2 text-[1.75rem] leading-[1.05] font-bold break-words text-white uppercase">{breakAtSlashes(routine.name)}</p>
+                  <p className="font-hud text-sm font-bold tracking-[0.18em] text-neon-300 uppercase">{info.label}</p>
+                  <p className="font-hud line-clamp-2 text-[1.75rem] leading-[1.05] font-bold break-words text-white uppercase">{breakAtSlashes(routine.name)}</p>
                 </div>
                 {routine.suggestedTag && (
-                  <span className="chalk-label font-condensed shrink-0 rounded-lg border border-gold-400/50 bg-gold-400/10 px-2.5 py-1 text-lg font-extrabold text-gold-200">
+                  <span className="chalk-label font-hud shrink-0 rounded-lg border border-neon-400/50 bg-neon-400/10 px-2.5 py-1 text-lg font-extrabold text-neon-200">
                     {routine.suggestedTag}
                   </span>
                 )}
@@ -71,11 +71,11 @@ export function RoutinesPage() {
               <div className="relative mt-3 flex flex-wrap items-center gap-1.5">
                 {preview.map((item, j) => (
                   <span key={j} className="max-w-full truncate rounded-full bg-white/8 px-2.5 py-1 text-xs font-medium text-white/80">
-                    {showTiers && <b className="font-condensed mr-1 text-sm text-gold-300">{labels[j]}</b>}
+                    {showTiers && <b className="font-hud mr-1 text-sm text-neon-300">{labels[j]}</b>}
                     {exercisesById.get(item.exerciseId)?.name ?? 'Ejercicio'}
                   </span>
                 ))}
-                {rest > 0 && <span className="rounded-full border border-gold-400/30 px-2.5 py-1 text-xs text-gold-200">+{rest} más</span>}
+                {rest > 0 && <span className="rounded-full border border-neon-400/30 px-2.5 py-1 text-xs text-neon-200">+{rest} más</span>}
                 {routine.exercises.length === 0 && <span className="text-xs text-white/45">Sin ejercicios todavía: toca para añadir.</span>}
               </div>
             </Link>
@@ -86,7 +86,7 @@ export function RoutinesPage() {
             <span className="text-5xl opacity-50" aria-hidden="true">
               📋
             </span>
-            <p className="font-condensed text-xl font-bold text-white/75 uppercase">Aún no hay rutinas</p>
+            <p className="font-hud text-xl font-bold text-white/75 uppercase">Aún no hay rutinas</p>
             <p className="text-sm text-white/45">Crea la primera, por ejemplo «Gym MD-4» o «Activación MD-1».</p>
           </div>
         )}
@@ -98,7 +98,7 @@ export function RoutinesPage() {
           setCreating(true)
         }}
         aria-label="Nueva rutina"
-        className="fixed right-4 bottom-24 flex h-14 w-14 items-center justify-center rounded-full border border-pitch-700/60 bg-gradient-to-b from-pitch-400 to-pitch-600 text-3xl font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_24px_-6px_rgba(42,161,74,0.65)] transition-transform active:translate-y-px active:scale-95"
+        className="fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] flex h-14 w-14 items-center justify-center rounded-full btn-neon btn-pulse text-3xl font-bold active:scale-95"
       >
         +
       </button>

@@ -31,7 +31,7 @@ export function SessionLogPage() {
     return (
       <div className="p-6 text-center text-white/50">
         Esta sesión ya no existe.{' '}
-        <Link to="/" className="text-gold-300">
+        <Link to="/" className="text-neon-300">
           Volver a la semana
         </Link>
       </div>
@@ -172,19 +172,19 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
           <span
             className={`flex h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-2 px-1 text-lg font-bold transition-all ${
               row.done
-                ? 'scale-105 border-pitch-300 bg-gradient-to-b from-pitch-400 to-pitch-600 text-white shadow-[0_0_12px_-2px_rgba(63,189,97,0.8)]'
+                ? 'btn-neon scale-105 text-white'
                 : grouped
                   ? `border-transparent bg-gradient-to-b ${TIER_INFO[tierOf(planned)].medal}`
-                  : 'border-gold-400/50 text-gold-300'
+                  : 'border-neon-400/50 text-neon-300'
             }`}
           >
-            {row.done ? '✓' : <span className="font-condensed text-lg font-extrabold">{grouped ? labels[i] : i + 1}</span>}
+            {row.done ? '✓' : <span className="font-hud text-lg font-extrabold">{grouped ? labels[i] : i + 1}</span>}
           </span>
           <span className="min-w-0">
-            <span className="font-condensed block text-xl leading-tight font-bold text-white uppercase">{name}</span>
+            <span className="font-hud block text-xl leading-tight font-bold text-white uppercase">{name}</span>
             {plan && (
               <span className="block text-xs text-white/55">
-                Plan: <b className="text-gold-200">{plan}</b>
+                Plan: <b className="text-neon-200">{plan}</b>
               </span>
             )}
             {planned.notes && <span className="block text-xs text-white/50">{planned.notes}</span>}
@@ -208,7 +208,7 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
         back={{ to: weekPath, label: 'Semana' }}
         aside={
           <span
-            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-3xl shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_10px_rgba(0,0,0,0.5)] ${info.piece}`}
+            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-3xl ${info.piece}`}
             style={{ filter: `drop-shadow(0 0 10px ${info.glow})` }}
             aria-hidden="true"
           >
@@ -218,14 +218,14 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
       />
 
       {session.status === 'saltada' && (
-        <p className="mb-4 rounded-lg border border-[#ff6b5b]/40 bg-[#ff6b5b]/10 px-3 py-2 text-sm text-[#ff9a8e]">Marcada como saltada.</p>
+        <p className="mb-4 rounded-lg border border-[#ff4b3e]/40 bg-[#ff4b3e]/10 px-3 py-2 text-sm text-[#ffa094]">Marcada como saltada.</p>
       )}
 
       {draft.rows.length > 0 && (
         <>
           <SectionTitle
             aside={
-              <span className="font-condensed text-lg font-bold text-gold-300 tabular-nums">
+              <span className="font-hud text-lg font-bold text-neon-300 tabular-nums">
                 {doneCount}/{draft.rows.length}
               </span>
             }
@@ -241,7 +241,7 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
             aria-valuenow={doneCount}
           >
             <div
-              className="h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-300 shadow-[0_0_10px_rgba(245,181,68,0.6)] transition-[width] duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-neon-500 to-neon-300 shadow-[0_0_10px_rgba(255,159,34,0.6)] transition-[width] duration-500"
               style={{ width: `${(doneCount / draft.rows.length) * 100}%` }}
             />
           </div>
@@ -256,13 +256,13 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
                   <section key={tier} aria-label={tierInfo.label}>
                     <div className="mb-2 flex items-center gap-2.5">
                       <span
-                        className={`font-condensed flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-xl font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_3px_8px_rgba(0,0,0,0.5)] ${tierInfo.medal}`}
+                        className={`font-hud flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-xl font-extrabold shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_3px_8px_rgba(0,0,0,0.5)] ${tierInfo.medal}`}
                         aria-hidden="true"
                       >
                         {tierInfo.letter}
                       </span>
-                      <p className="font-condensed flex-1 text-xl leading-none font-extrabold text-white uppercase">{tierInfo.label}</p>
-                      <span className="font-condensed text-lg font-bold text-white/50 tabular-nums">
+                      <p className="font-hud flex-1 text-xl leading-none font-extrabold text-white uppercase">{tierInfo.label}</p>
+                      <span className="font-hud text-lg font-bold text-white/50 tabular-nums">
                         {tierDone}/{indices.length}
                       </span>
                     </div>
@@ -301,8 +301,8 @@ function SessionLogger({ session, week }: { session: Session; week: Week | undef
           <p className="text-xs text-white/45">RPE × minutos</p>
         </div>
         <span
-          className={`font-condensed text-5xl leading-none font-extrabold tabular-nums ${
-            load ? 'text-pitch-400 [text-shadow:0_0_18px_rgba(63,189,97,0.45)]' : 'text-white/25'
+          className={`font-hud text-5xl leading-none font-extrabold tabular-nums ${
+            load ? 'text-pitch-400 [text-shadow:0_0_18px_rgba(245,43,124,0.45)]' : 'text-white/25'
           }`}
         >
           {load || '—'}

@@ -30,10 +30,11 @@ import { createSession, deleteSession, updateSession } from '../db/sessionRepo'
 import { getWeekDates, parseWeekParam, shiftWeek, todayMondayISO } from '../utils/dateUtils'
 import { summarizeWeek } from '../utils/loadCalc'
 import { getMdTagForDay, getMdTagInfo } from '../utils/mdTag'
+import { SESSION_TYPE_INFO } from '../utils/sessionTypeInfo'
 import type { MatchDayInfo, Routine, Session } from '../types/models'
 
 const toolClass =
-  'font-condensed flex min-h-12 items-center justify-center gap-1.5 rounded-xl border text-base font-bold tracking-wide uppercase shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] transition-all active:translate-y-px active:scale-[0.97]'
+  'font-hud flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-xs font-bold tracking-[0.12em] uppercase disabled:opacity-35'
 
 export function WeekPage() {
   // La semana vive en la URL: así se conserva al volver de registrar una sesión o de otra pestaña.
@@ -160,8 +161,8 @@ export function WeekPage() {
               aria-expanded={trayOpen}
               className={`${toolClass} ${
                 trayOpen
-                  ? 'border-gold-300 bg-gradient-to-b from-gold-300 to-gold-500 text-gold-950 shadow-[0_6px_16px_-6px_rgba(245,181,68,0.7)]'
-                  : 'border-gold-400/25 bg-surface-2 text-white/80'
+                  ? 'btn-neon-cyan !bg-neon-400/25 !text-white'
+                  : 'btn-neon-cyan'
               }`}
             >
               <span className="text-lg" aria-hidden="true">
@@ -172,14 +173,14 @@ export function WeekPage() {
             <button
               onClick={handleDuplicateClick}
               disabled={sessions.length === 0}
-              className={`${toolClass} border-gold-400/25 bg-surface-2 text-white/80 disabled:opacity-40`}
+              className={`${toolClass} btn-neon-cyan`}
             >
               <span className="text-lg" aria-hidden="true">
                 ⧉
               </span>
               Duplicar
             </button>
-            <button onClick={() => setTemplatesOpen(true)} className={`${toolClass} border-gold-400/25 bg-surface-2 text-white/80`}>
+            <button onClick={() => setTemplatesOpen(true)} className={`${toolClass} btn-neon-cyan`}>
               <span className="text-lg" aria-hidden="true">
                 📑
               </span>
@@ -195,12 +196,12 @@ export function WeekPage() {
               <div className="flex items-end justify-between gap-3">
                 <div>
                   <p className="kicker">Carga de la semana</p>
-                  <p className="font-condensed text-5xl leading-none font-extrabold text-pitch-400 tabular-nums [text-shadow:0_0_18px_rgba(63,189,97,0.45)]">
+                  <p className="font-hud text-5xl leading-none font-extrabold text-pitch-400 tabular-nums [text-shadow:0_0_18px_rgba(245,43,124,0.45)]">
                     {summary.load}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-condensed text-3xl leading-none font-extrabold text-white tabular-nums">
+                  <p className="font-hud text-3xl leading-none font-extrabold text-white tabular-nums">
                     {summary.sessionsDone}
                     <span className="text-xl text-white/40">/{summary.sessionsPlanned}</span>
                   </p>
@@ -217,7 +218,7 @@ export function WeekPage() {
                 aria-valuenow={summary.sessionsDone}
               >
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-300 shadow-[0_0_10px_rgba(245,181,68,0.6)] transition-[width] duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-neon-500 to-neon-300 shadow-[0_0_10px_rgba(255,159,34,0.6)] transition-[width] duration-500"
                   style={{ width: `${summary.sessionsPlanned > 0 ? (summary.sessionsDone / summary.sessionsPlanned) * 100 : 0}%` }}
                 />
               </div>
@@ -241,6 +242,10 @@ export function WeekPage() {
                 matchSummary={matchSummary}
                 sessions={sessions.filter((s) => s.dayIndex === dayIndex)}
                 onAddSession={() => setAddSessionDay(dayIndex)}
+                onQuickAdd={(type) => createSession({ weekId, dayIndex, type, title: SESSION_TYPE_INFO[type].label })}
+                onClearRest={() =>
+                  sessions.filter((s) => s.dayIndex === dayIndex && s.type === 'descanso').forEach((s) => deleteSession(s.id))
+                }
                 onEditSession={setEditingSession}
                 onMarkMatchDay={() => setMatchModalDay(dayIndex)}
                 match={countedMatch}

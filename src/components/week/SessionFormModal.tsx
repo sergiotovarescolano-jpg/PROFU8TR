@@ -5,7 +5,8 @@ import { ConfirmButton } from '../ui/ConfirmButton'
 import { Input, Select } from '../ui/Field'
 import { ExerciseListEditor } from '../routines/ExerciseListEditor'
 import { useRoutines } from '../../hooks/useRoutines'
-import { SESSION_TYPE_INFO, SESSION_TYPE_OPTIONS } from '../../utils/sessionTypeInfo'
+import { SESSION_TYPE_INFO } from '../../utils/sessionTypeInfo'
+import { DayTypePicker } from './DayTypePicker'
 import type { RoutineExercise, Session, SessionType } from '../../types/models'
 
 export interface SessionFormData {
@@ -63,12 +64,9 @@ export function SessionFormModal({ onClose, initial, onSave, onDelete }: Session
 
   return (
     <Modal open onClose={onClose} title={initial ? 'Editar sesión' : 'Nueva sesión'}>
-      <Select
-        label="Tipo de sesión"
-        value={type}
-        onChange={(e) => setType(e.target.value as SessionType)}
-        options={SESSION_TYPE_OPTIONS}
-      />
+      <div className="mb-4">
+        <DayTypePicker label="Tipo de sesión" withMatch={false} selected={type} onPick={(choice) => setType(choice as SessionType)} />
+      </div>
       <Input
         label="Título"
         placeholder={sourceRoutine?.name ?? SESSION_TYPE_INFO[type].label}
@@ -87,7 +85,7 @@ export function SessionFormModal({ onClose, initial, onSave, onDelete }: Session
             <button
               type="button"
               onClick={() => setStartTime('')}
-              className="font-condensed mb-3 min-h-12 rounded-xl px-3 text-base font-bold text-white/55 uppercase active:bg-white/10"
+              className="font-hud mb-3 min-h-12 rounded-xl px-3 text-base font-bold text-white/55 uppercase active:bg-white/10"
             >
               Sin hora
             </button>
@@ -107,7 +105,7 @@ export function SessionFormModal({ onClose, initial, onSave, onDelete }: Session
             ]}
           />
 
-          <h3 className="font-condensed mt-4 mb-2 text-xl font-bold tracking-wide text-white uppercase">Ejercicios de este día</h3>
+          <h3 className="font-hud mt-4 mb-2 text-xl font-bold tracking-wide text-white uppercase">Ejercicios de este día</h3>
           <ExerciseListEditor key={editorVersion} grouped={type === 'gimnasio'} items={exercises} onChange={setExercises} />
 
           {exercises.length > 0 && (
@@ -116,7 +114,7 @@ export function SessionFormModal({ onClose, initial, onSave, onDelete }: Session
                 type="checkbox"
                 checked={saveToRoutine}
                 onChange={(e) => setSaveToRoutine(e.target.checked)}
-                className="h-5 w-5 shrink-0 accent-[var(--color-gold-400)]"
+                className="h-5 w-5 shrink-0 accent-[var(--color-neon-400)]"
               />
               {sourceRoutine
                 ? `Guardar estos cambios también en la rutina "${sourceRoutine.name}"`

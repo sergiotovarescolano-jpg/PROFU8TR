@@ -10,6 +10,7 @@ interface ExerciseFormProps {
   open: boolean
   onClose: () => void
   initial?: Exercise
+  defaultName?: string // nombre propuesto al crear (p. ej. lo escrito en el buscador)
   onSave: (data: Omit<Exercise, 'id' | 'createdAt'>) => void
   onDelete?: () => void
 }
@@ -19,8 +20,8 @@ function isSafeLink(url: string): boolean {
   return /^https?:\/\//i.test(url.trim())
 }
 
-export function ExerciseForm({ open, onClose, initial, onSave, onDelete }: ExerciseFormProps) {
-  const [name, setName] = useState(initial?.name ?? '')
+export function ExerciseForm({ open, onClose, initial, defaultName = '', onSave, onDelete }: ExerciseFormProps) {
+  const [name, setName] = useState(initial?.name ?? defaultName)
   const [category, setCategory] = useState<ExerciseCategory>(initial?.category ?? 'fuerza')
   const [muscleGroup, setMuscleGroup] = useState(initial?.muscleGroup ?? '')
   const [equipment, setEquipment] = useState(initial?.equipment ?? '')
@@ -71,7 +72,7 @@ export function ExerciseForm({ open, onClose, initial, onSave, onDelete }: Exerc
           href={videoUrl.trim()}
           target="_blank"
           rel="noopener noreferrer"
-          className="-mt-1 mb-3 block text-sm font-medium text-gold-300"
+          className="-mt-1 mb-3 block text-sm font-medium text-neon-300"
         >
           ▶ Ver vídeo
         </a>

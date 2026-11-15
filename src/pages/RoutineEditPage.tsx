@@ -24,7 +24,7 @@ export function RoutineEditPage() {
     return (
       <div className="p-6 text-center text-white/50">
         Esta rutina ya no existe.{' '}
-        <Link to="/rutinas" className="text-gold-300">
+        <Link to="/rutinas" className="text-neon-300">
           Volver a rutinas
         </Link>
       </div>
@@ -50,7 +50,7 @@ function RoutineEditor({ routine }: { routine: Routine }) {
         back={{ to: '/rutinas', label: 'Rutinas' }}
         aside={
           <span
-            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-b text-3xl shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_10px_rgba(0,0,0,0.5)] ${SESSION_TYPE_INFO[sessionType].piece}`}
+            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-3xl ${SESSION_TYPE_INFO[sessionType].piece}`}
             style={{ filter: `drop-shadow(0 0 10px ${SESSION_TYPE_INFO[sessionType].glow})` }}
             aria-hidden="true"
           >
@@ -90,7 +90,7 @@ function RoutineEditor({ routine }: { routine: Routine }) {
       />
 
       <div className="mt-6">
-        <SectionTitle aside={<span className="font-condensed text-lg font-bold text-gold-300">{exercises.length}</span>}>Ejercicios</SectionTitle>
+        <SectionTitle aside={<span className="font-hud text-lg font-bold text-neon-300">{exercises.length}</span>}>Ejercicios</SectionTitle>
       </div>
       <ExerciseListEditor
         grouped={sessionType === 'gimnasio'}

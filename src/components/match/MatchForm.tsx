@@ -64,7 +64,7 @@ export function MatchForm({ rival, initial, onClose, onSave, onDelete }: MatchFo
 
       <div className="mb-4 flex items-center justify-between rounded-xl border border-border bg-surface-2 px-4 py-3">
         <span className="text-sm text-white/60">Carga del partido</span>
-        <span className="font-condensed text-4xl leading-none font-extrabold text-pitch-400 tabular-nums">{load || '—'}</span>
+        <span className="font-hud text-4xl leading-none font-extrabold text-pitch-400 tabular-nums">{load || '—'}</span>
       </div>
 
       <ScalePicker label="Tu valoración personal" max={10} value={rating} onChange={setRating} />

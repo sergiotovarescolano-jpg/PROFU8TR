@@ -10,7 +10,7 @@ export const TIER_INFO: Record<ExerciseTier, { label: string; short: string; hin
     short: 'Main',
     hint: 'Básico pesado, va primero',
     letter: 'A',
-    medal: 'from-gold-200 to-gold-600 text-gold-950',
+    medal: 'from-[#fff3b0] to-[#e0a800] text-[#2a1d00]',
   },
   secondary: {
     label: 'Secondary lift',

@@ -20,13 +20,13 @@ export function ExerciseRow({ exercise, onClick }: ExerciseRowProps) {
         {info.icon}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="font-condensed block truncate text-xl leading-tight font-bold text-white uppercase">{exercise.name}</span>
+        <span className="font-hud block truncate text-xl leading-tight font-bold text-white uppercase">{exercise.name}</span>
         <span className="block truncate text-xs text-white/55">
-          <span className="text-gold-300">{info.label}</span>
+          <span className="text-neon-300">{info.label}</span>
           {exercise.muscleGroup && ` · ${exercise.muscleGroup}`}
         </span>
       </span>
-      <span className="font-condensed shrink-0 text-2xl font-bold text-gold-300" aria-hidden="true">
+      <span className="font-hud shrink-0 text-2xl font-bold text-neon-300" aria-hidden="true">
         +
       </span>
     </button>

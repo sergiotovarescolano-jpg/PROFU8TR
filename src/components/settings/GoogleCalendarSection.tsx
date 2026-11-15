@@ -59,14 +59,14 @@ export function GoogleCalendarSection() {
           Tus entrenos y partidos aparecerán en un calendario propio, «Fútbol Planner», y lo que muevas allí se refleja aquí. Necesita
           un Client ID gratuito de Google Cloud: los pasos están en el README, sección «Google Calendar».
         </p>
-        <div className="mb-3 rounded-xl border border-gold-400/25 bg-black/25 p-3">
-          <p className="font-condensed text-sm font-bold tracking-wider text-gold-200/85 uppercase">Origen a autorizar en Google</p>
+        <div className="mb-3 rounded-xl border border-neon-400/25 bg-black/25 p-3">
+          <p className="field-label !mb-0">Origen a autorizar en Google</p>
           <div className="mt-1 flex items-center gap-2">
             <code className="min-w-0 flex-1 truncate text-sm text-white">{origin}</code>
             <button
               type="button"
               onClick={copyOrigin}
-              className="font-condensed shrink-0 rounded-lg border border-gold-400/40 px-3 py-1.5 text-sm font-bold text-gold-200 uppercase active:scale-95"
+              className="font-hud shrink-0 rounded-lg border border-neon-400/40 px-3 py-1.5 text-sm font-bold text-neon-200 uppercase active:scale-95"
             >
               {copied ? 'Copiado' : 'Copiar'}
             </button>
@@ -80,7 +80,7 @@ export function GoogleCalendarSection() {
           autoComplete="off"
           spellCheck={false}
         />
-        {clientId.trim() && !valid && <p className="-mt-2 mb-3 text-xs text-[#ff9a8e]">Debe terminar en «.apps.googleusercontent.com».</p>}
+        {clientId.trim() && !valid && <p className="-mt-2 mb-3 text-xs text-[#ffa094]">Debe terminar en «.apps.googleusercontent.com».</p>}
         <div className="flex gap-2">
           {config.clientId && (
             <Button variant="secondary" fullWidth onClick={() => setEditingId(false)}>
@@ -103,7 +103,7 @@ export function GoogleCalendarSection() {
             {status.running ? '🔄' : '✅'}
           </span>
           <div className="min-w-0">
-            <p className="font-condensed text-lg leading-tight font-bold text-white uppercase">
+            <p className="font-hud text-lg leading-tight font-bold text-white uppercase">
               {status.running ? 'Sincronizando…' : 'Conectado'}
             </p>
             {config.lastSyncAt && (
@@ -121,7 +121,7 @@ export function GoogleCalendarSection() {
       )}
 
       {status.error && (
-        <p role="alert" className="mb-3 rounded-xl border border-[#ff6b5b]/40 bg-[#ff6b5b]/10 px-3 py-2 text-sm text-[#ffb4ab]">
+        <p role="alert" className="mb-3 rounded-xl border border-[#ff4b3e]/40 bg-[#ff4b3e]/10 px-3 py-2 text-sm text-[#ffc4bc]">
           ⚠️ {status.error}
         </p>
       )}
@@ -138,7 +138,7 @@ export function GoogleCalendarSection() {
         <button
           type="button"
           onClick={() => setEditingId(true)}
-          className="min-h-10 text-sm font-medium text-gold-300 active:text-gold-200"
+          className="min-h-10 text-sm font-medium text-neon-300 active:text-neon-200"
         >
           Cambiar Client ID
         </button>

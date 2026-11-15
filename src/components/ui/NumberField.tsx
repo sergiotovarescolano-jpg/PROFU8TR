@@ -12,7 +12,7 @@ export function NumberField({ label, value, onChange }: NumberFieldProps) {
 
   return (
     <label className="block">
-      <span className="font-condensed mb-1 block text-sm font-bold tracking-wide text-gold-200/70 uppercase">{label}</span>
+      <span className="font-hud mb-1 block text-sm font-bold tracking-wide text-neon-200/70 uppercase">{label}</span>
       <input
         inputMode="decimal"
         value={text}
@@ -21,7 +21,7 @@ export function NumberField({ label, value, onChange }: NumberFieldProps) {
           const parsed = Number(e.target.value.replace(',', '.'))
           onChange(e.target.value.trim() !== '' && Number.isFinite(parsed) && parsed >= 0 ? parsed : undefined)
         }}
-        className="font-condensed min-h-11 w-full rounded-lg border border-border bg-surface px-2 text-center text-xl font-bold shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] focus:border-gold-400 focus:outline-none"
+        className="font-hud min-h-11 w-full rounded-lg border border-border bg-surface px-2 text-center text-xl font-bold shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] focus:border-neon-400 focus:outline-none"
       />
     </label>
   )

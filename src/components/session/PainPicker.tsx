@@ -21,7 +21,7 @@ export function PainPicker({ initial, onChange }: PainPickerProps) {
 
   return (
     <div className="mb-4">
-      <p className="mb-1.5 text-sm font-medium text-white/70">Molestias o dolor</p>
+      <p className="field-label">Molestias o dolor</p>
       <datalist id="pain-zones">
         {COMMON_ZONES.map((zone) => (
           <option key={zone} value={zone} />

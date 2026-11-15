@@ -1,12 +1,13 @@
-// Colores de las gráficas, validados contra la superficie oscura de las tarjetas (#16171b):
-// el verde de acento de la UI (#3fbd61) es demasiado claro para rellenos de datos en modo oscuro.
+// Colores de las gráficas, validados (dataviz validate_palette, modo oscuro) contra el cristal
+// de las tarjetas (#26101a). La serie es el rosa neón de acción, más profundo que el de la UI
+// para que funcione como relleno; el límite de sobrecarga va en ámbar oscuro (pasa la prueba de
+// daltonismo frente al rosa; el rojo de alerta de la UI no la pasaba).
 export const CHART = {
-  series: '#34b057',
-  deemphasis: '#1f6b37',
-  // Coral, no ámbar: el dorado es ahora el color cálido decorativo de la app y no puede significar "alerta".
-  warning: '#ff6b5b',
-  surface: '#16171b',
-  grid: '#2c2e35',
-  axisText: '#898781',
-  labelText: '#c3c2b7',
+  series: '#d42a6f',
+  deemphasis: '#5e1534',
+  warning: '#bf7f00',
+  surface: '#26101a',
+  grid: '#4a2228',
+  axisText: '#c09088',
+  labelText: '#f2d6cc',
 } as const
