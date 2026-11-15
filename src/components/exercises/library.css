@@ -1,0 +1,142 @@
+/*
+ * Biblioteca de ejercicios. Reparto 60-30-10: negro de fondo, dorado como color cálido de
+ * apoyo (emblemas, rótulos, filtro activo, bordes), verde solo para la acción de crear.
+ */
+
+/* Tarjeta que se gira: delante el resumen, detrás descripción, notas y vídeo */
+.flip-card {
+  perspective: 1100px;
+  height: 204px;
+}
+
+.flip-inner {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flip-card[data-flipped='true'] .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* Cara frontal: placa oscura con veta dorada a la izquierda y emblema que brilla */
+.exercise-front {
+  background:
+    radial-gradient(circle at 0% 0%, rgb(245 181 68 / 0.14), transparent 55%),
+    linear-gradient(180deg, #1f1d1a 0%, #161513 100%);
+  border: 1px solid rgb(245 181 68 / 0.18);
+  box-shadow: var(--board-shadow-rest);
+}
+
+.exercise-front::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, #f8c96f, #b87a14);
+  box-shadow: 0 0 12px rgb(245 181 68 / 0.5);
+}
+
+.exercise-back {
+  background: linear-gradient(180deg, #24201a 0%, #181613 100%);
+  border: 1px solid rgb(245 181 68 / 0.35);
+  box-shadow: var(--board-shadow-lift);
+}
+
+/* Emblema de categoría: medalla dorada con canto */
+.emblem {
+  background: radial-gradient(circle at 35% 30%, #5c3c0c, #1f1507 75%);
+  box-shadow:
+    inset 0 0 0 2px #e09a22,
+    inset 0 0 0 4px #33220a,
+    inset 0 2px 6px rgb(255 255 255 / 0.2),
+    0 6px 14px -4px rgb(245 181 68 / 0.45);
+}
+
+/* Icono enorme y tenue al fondo de la tarjeta, como marca de agua */
+.watermark {
+  position: absolute;
+  right: -14px;
+  bottom: -22px;
+  font-size: 120px;
+  line-height: 1;
+  opacity: 0.07;
+  filter: grayscale(1);
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+/* Pista "toca para girar": la flecha gira un poco al pulsar */
+.flip-hint svg {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.flip-card:active .flip-hint svg {
+  transform: rotate(-90deg);
+}
+
+/* Entrada escalonada al cambiar de filtro */
+@keyframes lib-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lib-enter {
+  animation: lib-rise 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(min(var(--i), 10) * 35ms);
+}
+
+/* Filtro de categoría: ficha con disco de icono; la activa se llena de dorado */
+.cat-chip {
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cat-chip:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.cat-chip[aria-pressed='true'] {
+  background: linear-gradient(180deg, #f8c96f, #e09a22);
+  border-color: #f8c96f;
+  color: #1f1507;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 6px 16px -6px rgb(245 181 68 / 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner,
+  .flip-hint svg,
+  .cat-chip {
+    transition: none;
+  }
+  .lib-enter {
+    animation: none;
+  }
+}

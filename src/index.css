@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-pitch-50: #e8f8ec;
+  --color-pitch-100: #c6edcf;
+  --color-pitch-200: #9ce0ac;
+  --color-pitch-300: #6bd184;
+  --color-pitch-400: #3fbd61;
+  --color-pitch-500: #2aa14a;
+  --color-pitch-600: #1f8039;
+  --color-pitch-700: #19622e;
+  --color-pitch-800: #144a24;
+  --color-pitch-900: #0f351a;
+  --color-pitch-950: #0b1f12;
+
+  /* Dorado de trofeo: el color cálido que acompaña al negro (el 30 % del reparto 60-30-10) */
+  --color-gold-100: #fdf0d5;
+  --color-gold-200: #fbdca0;
+  --color-gold-300: #f8c96f;
+  --color-gold-400: #f5b544;
+  --color-gold-500: #e09a22;
+  --color-gold-600: #b87a14;
+  --color-gold-700: #8a5a10;
+  --color-gold-800: #5c3c0c;
+  --color-gold-900: #33220a;
+  --color-gold-950: #1f1507;
+
+  /* Fondo casi negro; placas y bordes en negro tostado para que el dorado (30 %) case con todo */
+  --color-bg: #0b0806;
+  --color-surface: #181613;
+  --color-surface-2: #201d19;
+  --color-border: #36312a;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", var(--font-sans);
+  /* Condensada deportiva, estilo dorsal: títulos grandes sin cortar nombres largos */
+  --font-condensed: "Barlow Condensed", "Arial Narrow", var(--font-sans);
+}
+
+:root {
+  color-scheme: dark;
+  /* Una sola fuente de luz cenital: todo bisel/sombra de la app nace de aquí */
+  --board-shadow-rest: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 20px -8px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5);
+  --board-shadow-lift: 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 20px 36px -10px rgba(0, 0, 0, 0.75), 0 6px 10px rgba(0, 0, 0, 0.55);
+  --board-shadow-inset: inset 0 2px 6px rgba(0, 0, 0, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+  --chalk: rgba(238, 245, 240, 0.55);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  color: #eef5f0;
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  /* El fondo visible es el estadio 3D (components/layout/AppBackground); esto solo cubre el rebote del scroll */
+  background-color: var(--color-bg);
+}
+
+/* evita el "pull to refresh" accidental y mejora el tacto en móvil */
+body {
+  overscroll-behavior-y: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+
+/* Marco de pizarra: panel con bisel metálico, usado en cabeceras y tarjetas clave */
+.board-frame {
+  position: relative;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 181, 68, 0.06), transparent 45%),
+    linear-gradient(180deg, #25211c 0%, #191714 6%, #151311 100%);
+  border: 1px solid rgba(245, 181, 68, 0.14);
+  box-shadow: var(--board-shadow-rest);
+}
+
+/* Antetítulo dorado espaciado, encima de los títulos condensados */
+.kicker {
+  font-family: var(--font-condensed);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold-400);
+}
+
+/* Marca de agua gigante y tenue (número de día, icono): relleno visual sin ruido */
+.bg-watermark {
+  position: absolute;
+  pointer-events: none;
+  font-family: var(--font-condensed);
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.045);
+  user-select: none;
+}
+
+/* Ficha imantada: bisel radial + sombra proyectada, se levanta al arrastrar */
+.piece {
+  box-shadow: var(--board-shadow-rest);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.piece-lift,
+.piece:active {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--board-shadow-lift);
+}
+
+/* Etiqueta MD "a tiza": ligera rotación e irregularidad de rotulador */
+.chalk-label {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  transform: rotate(-1.5deg);
+}
+
+@keyframes snap-in {
+  0% {
+    transform: scale(0.94) translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+/* decelera fuerte sin rebote: una placa que se asienta, no un muelle */
+.animate-snap-in {
+  animation: snap-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
